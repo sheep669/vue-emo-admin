@@ -1,0 +1,507 @@
+{
+    "get_menu_data": [
+        {
+            "path": "/home",
+            "name": "home",
+            "component": "/home",
+            "title": "首页",
+            "icon": "el-icon-s-home"
+        },
+        {
+            "path": "/group_buying_organizer",
+            "name": "groupbuyingorganizer",
+            "component": "/groupbuyingorganizer",
+            "title": "团长",
+            "icon": "el-icon-s-custom",
+            "children": [
+                {
+                    "detail_title": "团长",
+                    "hidden": true,
+                    "submenu": [
+                        {
+                            "submenu_title": "团长管理",
+                            "path": "/group_buying_organizer_manage",
+                            "component": "/groupbuyingorganizer/group-buying-organizer-manage"
+                        },
+                        {
+                            "submenu_title": "团长审核",
+                            "path": "/group_buying_organizer_audit",
+                            "component": "/groupbuyingorganizer/group-buying-organizer-audit"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/goods",
+            "name": "goods",
+            "component": "/goods",
+            "title": "商品",
+            "icon": "el-icon-goods",
+            "children": [
+                {
+                    "detail_title": "商品管理",
+                    "hidden": true,
+                    "submenu": [
+                        {
+                            "submenu_title": "出库中",
+                            "path": "/out_stock",
+                            "component": "/goods/out-stock"
+                        },
+                        {
+                            "submenu_title": "厂库中",
+                            "path": "/in_stock",
+                            "component": "/goods/in-stock"
+                        },
+                        {
+                            "submenu_title": "已售罄",
+                            "path": "/sold_out",
+                            "component": "/goods/sold-out"
+                        },
+                        {
+                            "submenu_title": "产品库",
+                            "path": "/goods_stock",
+                            "component": "/goods/goods-stock"
+                        },
+                        {
+                            "submenu_title": "产品分类",
+                            "path": "/goods_classification",
+                            "component": "/goods/goods-classification"
+                        },
+                        {
+                            "submenu_title": "商品标签",
+                            "path": "/goods_label",
+                            "component": "/goods/goods-label"
+                        },
+                        {
+                            "submenu_title": "商品评论",
+                            "path": "/goods_comment",
+                            "component": "/goods/goods-comment"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/order",
+            "name": "order",
+            "component": "/order",
+            "title": "订单",
+            "icon": "el-icon-shopping-cart-1",
+            "children": [
+                {
+                    "detail_title": "订单",
+                    "hidden": true,
+                    "submenu": [
+                        {
+                            "submenu_title": "所有订单",
+                            "path": "/all_orders",
+                            "component": "/order/all-orders"
+                        },
+                        {
+                            "submenu_title": "待付款",
+                            "path": "/unpayed_orders",
+                            "component": "/order/unpayed-orders"
+                        },
+                        {
+                            "submenu_title": "待备货",
+                            "path": "/unprepared_orders",
+                            "component": "/order/unprepared-orders"
+                        },
+                        {
+                            "submenu_title": "备货中",
+                            "path": "/prepared_orders",
+                            "component": "/order/prepared-orders"
+                        },
+                        {
+                            "submenu_title": "配送中",
+                            "path": "/delivery_orders",
+                            "component": "/order/delivery-orders"
+                        },
+                        {
+                            "submenu_title": "待提货",
+                            "path": "/wait_receive_orders",
+                            "component": "/order/wait-receive-orders"
+                        },
+                        {
+                            "submenu_title": "交易完成",
+                            "path": "/deal_complete_orders",
+                            "component": "/order/deal-complete-orders"
+                        },
+                        {
+                            "submenu_title": "已关闭",
+                            "path": "/closed_orders",
+                            "component": "/order/closed-orders"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/finance",
+            "name": "finance",
+            "component": "/finance",
+            "title": "财务",
+            "icon": "el-icon-bank-card",
+            "children": [
+                {
+                    "detail_title": "财务",
+                    "hidden": true,
+                    "submenu": [
+                        {
+                            "submenu_title": "团长结算",
+                            "path": "/group_buying_organizer_clear",
+                            "component": "/finance/group-buying-organizer-clear"
+                        },
+                        {
+                            "submenu_title": "团长提现信息",
+                            "path": "/group_buying_organizer_withdrawal_information",
+                            "component": "/finance/group-buying-organizer-withdrawal-information"
+                        },
+                        {
+                            "submenu_title": "团长提现审核",
+                            "path": "/group_buying_organizer_withdrawal_audit",
+                            "component": "/finance/group-buying-organizer-withdrawal-audit"
+                        },
+                        {
+                            "submenu_title": "佣金流水",
+                            "path": "/brokerage_serial",
+                            "component": "/finance/brokerage-serial "
+                        },
+                        {
+                            "submenu_title": "交易流水",
+                            "path": "/deal_serial",
+                            "component": "/finance/deal-serial"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/user",
+            "name": "user",
+            "component": "/user",
+            "title": "会员",
+            "icon": "el-icon-user",
+            "children": [
+                {
+                    "detail_title": "会员管理",
+                    "submenu": [
+                        {
+                            "submenu_title": "会员列表",
+                            "path": "/user_list",
+                            "component": "/user/user-list"
+                        },
+                        {
+                            "submenu_title": "黑名单",
+                            "path": "/black_list",
+                            "component": "/user/black-list"
+                        },
+                        {
+                            "submenu_title": "会员标签",
+                            "path": "/user_label",
+                            "component": "/user/user-label"
+                        }
+                    ]
+                },
+                {
+                    "detail_title": "会员权限",
+                    "hidden": true,
+                    "submenu": [
+                        {
+                            "submenu_title": "优惠权限",
+                            "path": "/user_discount_authority",
+                            "component": "/user/user-discount-authority"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/delivery",
+            "name": "delivery",
+            "component": "/delivery",
+            "title": "配送",
+            "icon": "el-icon-truck",
+            "children": [
+                {
+                    "detail_title": "配送",
+                    "hidden": true,
+                    "submenu": [
+                        {
+                            "submenu_title": "生成配送单",
+                            "path": "/create_delivery_paper",
+                            "component": "/delivery/create-delivery-paper"
+                        },
+                        {
+                            "submenu_title": "配送单管理",
+                            "path": "/delivery_paper_manage",
+                            "component": "/delivery/delivery-paper-manage"
+                        },
+                        {
+                            "submenu_title": "配送路线",
+                            "path": "/delivery_routes",
+                            "component": "/delivery/delivery-routes"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/after_sale",
+            "name": "aftersale",
+            "component": "/aftersale",
+            "title": "售后",
+            "icon": "el-icon-sold-out",
+            "children": [
+                {
+                    "detail_title": "售后",
+                    "hidden": true,
+                    "submenu": [
+                        {
+                            "submenu_title": "所有售后",
+                            "path": "/all_after_sale",
+                            "component": "/aftersale/all-after-sale"
+                        },
+                        {
+                            "submenu_title": "退款申请",
+                            "path": "/drawback_apply",
+                            "component": "/aftersale/drawback-apply"
+                        },
+                        {
+                            "submenu_title": "退货申请",
+                            "path": "/refund_apply",
+                            "component": "/aftersale/refund-apply"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/schedule",
+            "name": "schedule",
+            "component": "/schedule",
+            "title": "开发进度",
+            "icon": "el-icon-s-flag"
+        },
+        {
+            "path": "/system",
+            "name": "system",
+            "component": "/system",
+            "title": "系统",
+            "icon": "el-icon-cpu",
+            "children": [
+                {
+                    "detail_title": "系统用户管理",
+                    "submenu": [
+                        {
+                            "submenu_title": "用户查看",
+                            "path": "/sys_user_view",
+                            "component": "/system/sys-user-view"
+                        },
+                        {
+                            "submenu_title": "用户分类",
+                            "path": "/sys_user_classification",
+                            "component": "/system/sys-user-classification"
+                        }
+                    ]
+                },
+                {
+                    "detail_title": "系统日志",
+                    "hidden": true,
+                    "submenu": [
+                        {
+                            "submenu_title": "操作日志",
+                            "path": "/sys_user_operation_log",
+                            "component": "/system/sys-user-operation-log"
+                        },
+                        {
+                            "submenu_title": "登录日志",
+                            "path": "/sys_user_login_log",
+                            "component": "/system/sys-user-login-log"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/authority",
+            "name": "authority",
+            "component": "/authority",
+            "title": "权限",
+            "icon": "el-icon-s-check",
+            "children": [
+                {
+                    "detail_title": "权限",
+                    "hidden": true,
+                    "submenu": [
+                        {
+                            "submenu_title": "用户权限查看",
+                            "path": "/user_authority_view",
+                            "component": "/authority/user-authority-view"
+                        },
+                        {
+                            "submenu_title": "权限管理",
+                            "path": "/user_authority_manage",
+                            "component": "/authority/user-authority-manage"
+                        },
+                        {
+                            "submenu_title": "权限分配",
+                            "path": "/user_authority_distribute",
+                            "component": "/authority/user-authority-distribute"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/chatroom",
+            "name": "chatroom",
+            "component": "/chatroom",
+            "title": "摸鱼聊天室",
+            "icon": "el-icon-chat-line-square"
+        }
+    ],
+    "get_table_data": [
+        {
+            "user_id": 34567,
+            "group_buying_organizer_name": "傅小虎",
+            "phone_number": "13203034344",
+            "store_name": "小渔村",
+            "recommend_group_buying_organizer": "小明举荐",
+            "receiver_address": "上海市普陀区金沙江路 1518 弄",
+            "commission_balance": "2元",
+            "earnings_balance": "7元",
+            "cash_balance": "50元",
+            "recommend_group_buying_organizer_status": "1",
+            "imgurl": "https://img2.woyaogexing.com/2022/06/19/7a7559042361ced8!400x400.jpg",
+            "remark": "来自小渔村,是个小码农",
+            "apply_time": "2022-05-02"
+        },
+        {
+            "user_id": 34568,
+            "group_buying_organizer_name": "陆小虎",
+            "phone_number": "13203034344",
+            "store_name": "小渔村",
+            "recommend_group_buying_organizer": "小明举荐",
+            "receiver_address": "上海市普陀区金沙江路 1518 弄",
+            "commission_balance": "2元",
+            "earnings_balance": "7元",
+            "cash_balance": "50元",
+            "recommend_group_buying_organizer_status": "1",
+            "imgurl": "https://img2.woyaogexing.com/2022/06/18/2b0155b28c9c62fc!400x400.jpg",
+            "remark": "来自小渔村,是个小码农",
+            "apply_time": "2022-05-08"
+        },
+        {
+            "user_id": 34569,
+            "group_buying_organizer_name": "刘小虎",
+            "phone_number": "13203034344",
+            "store_name": "小渔村",
+            "recommend_group_buying_organizer": "小明举荐",
+            "receiver_address": "上海市普陀区金沙江路 1518 弄",
+            "commission_balance": "2元",
+            "earnings_balance": "7元",
+            "cash_balance": "50元",
+            "recommend_group_buying_organizer_status": "1",
+            "imgurl": "https://img2.woyaogexing.com/2022/06/18/7b52fac5dc316475!400x400.jpg",
+            "remark": "来自小渔村,是个小码农",
+            "apply_time": "2022-05-12"
+        },
+        {
+            "user_id": 34570,
+            "group_buying_organizer_name": "张小虎",
+            "phone_number": "13203034344",
+            "store_name": "小渔村",
+            "recommend_group_buying_organizer": "小明举荐",
+            "receiver_address": "上海市普陀区金沙江路 1518 弄",
+            "commission_balance": "2元",
+            "earnings_balance": "7元",
+            "cash_balance": "50元",
+            "recommend_group_buying_organizer_status": "1",
+            "imgurl": "https://img2.woyaogexing.com/2022/06/19/fc856bb3687b5b31!400x400.jpg",
+            "remark": "来自小渔村,是个小码农",
+            "apply_time": "2022-04-02"
+        },
+        {
+            "user_id": 34571,
+            "group_buying_organizer_name": "孙小虎",
+            "phone_number": "13203034344",
+            "store_name": "小渔村",
+            "recommend_group_buying_organizer": "小明举荐",
+            "receiver_address": "上海市普陀区金沙江路 1518 弄",
+            "commission_balance": "2元",
+            "earnings_balance": "7元",
+            "cash_balance": "50元",
+            "recommend_group_buying_organizer_status": "1",
+            "imgurl": "https://img2.woyaogexing.com/2022/06/16/8868f61afb5e0eae!400x400.jpg",
+            "remark": "来自小渔村,是个小码农",
+            "apply_time": "2016-06-02"
+        },
+        {
+            "user_id": 34572,
+            "group_buying_organizer_name": "岳小虎",
+            "phone_number": "13203034344",
+            "store_name": "小渔村",
+            "recommend_group_buying_organizer": "小明举荐",
+            "receiver_address": "上海市普陀区金沙江路 1518 弄",
+            "commission_balance": "2元",
+            "earnings_balance": "7元",
+            "cash_balance": "50元",
+            "recommend_group_buying_organizer_status": "1",
+            "imgurl": "https://img2.woyaogexing.com/2022/06/24/e3d06529fac343d3!400x400.jpg",
+            "remark": "来自小渔村,是个小码农",
+            "apply_time": "2018-05-02"
+        },
+        {
+            "user_id": 34573,
+            "group_buying_organizer_name": "庄小虎",
+            "phone_number": "13203034344",
+            "store_name": "小渔村",
+            "recommend_group_buying_organizer": "小明举荐",
+            "receiver_address": "上海市普陀区金沙江路 1518 弄",
+            "commission_balance": "2元",
+            "earnings_balance": "7元",
+            "cash_balance": "50元",
+            "recommend_group_buying_organizer_status": "1",
+            "imgurl": "https://img2.woyaogexing.com/2022/06/24/de0f8fdc71e81857!400x400.jpg",
+            "remark": "来自小渔村,是个小码农",
+            "apply_time": "2016-07-02"
+        },
+        {
+            "user_id": 34574,
+            "group_buying_organizer_name": "陈小虎",
+            "phone_number": "13203034344",
+            "store_name": "小渔村",
+            "recommend_group_buying_organizer": "小明举荐",
+            "receiver_address": "上海市普陀区金沙江路 1518 弄",
+            "commission_balance": "2元",
+            "earnings_balance": "7元",
+            "cash_balance": "50元",
+            "recommend_group_buying_organizer_status": "0",
+            "imgurl": "https://img2.woyaogexing.com/2022/06/24/de0f8fdc71e81857!400x400.jpg",
+            "remark": "来自小渔村,是个小码农",
+            "apply_time": "2046-05-02"
+        }
+    ],
+    "get_rank_data": [
+        {
+            "ranking": 1,
+            "store_name": "小渔村",
+            "phone_number": "13203034344",
+            "commission_balance": "2元"
+        },
+        {
+            "ranking": 2,
+            "store_name": "小渔村",
+            "phone_number": "13203034344",
+            "commission_balance": "2元"
+        },
+        {
+            "ranking": 3,
+            "store_name": "小渔村",
+            "phone_number": "13203034344",
+            "commission_balance": "2元"
+        }
+    ]
+}
