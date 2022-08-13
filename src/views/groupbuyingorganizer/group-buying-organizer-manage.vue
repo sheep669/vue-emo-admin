@@ -213,20 +213,20 @@
                     <el-input
                         clearable
                         v-model="dialogConfig.commissionBalance"
-                        placeholder="请输入佣金余额"
+                        placeholder="请输入佣金余额(.00可省略)"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="收益总额 :" :label-width="formLabelWidth">
                     <el-input
                         clearable
                         v-model="dialogConfig.earningsBalance"
-                        placeholder="请输入收益总额"
+                        placeholder="请输入收益总额(.00可省略)"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="现金余额 :" :label-width="formLabelWidth">
                     <el-input
                         v-model="dialogConfig.cashBalance"
-                        placeholder="请输入现金余额"
+                        placeholder="请输入现金余额(.00可省略)"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="备注 :" :label-width="formLabelWidth">
@@ -304,6 +304,7 @@ export default {
                 console.log(data_param.id);
                 data_param.auditStatus = this.value;
                 doPostRequest(url_param, data_param).then((res) => {
+                    console.log(res);
                     if (res.data.code == 200) {
                         this.$message({
                             message: "修改成功",
@@ -442,6 +443,7 @@ export default {
         handleAdd() {
             this.eidtModel = false;
             this.reset();
+            this.value = 1;
             this.dialogFormVisible = true;
             this.dialogTitle = "添加团长信息";
         },
@@ -559,7 +561,7 @@ export default {
     },
     data() {
         return {
-            value: 3,
+            value: 1,
             eidtModel: false,
             auditStatus: [
                 { label: "待审核", value: 1 },
