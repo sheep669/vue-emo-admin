@@ -213,20 +213,20 @@
                     <el-input
                         clearable
                         v-model="dialogConfig.commissionBalance"
-                        placeholder="请输入佣金余额(.00可省略) 保留两位小数 示例数据:12.00"
+                        placeholder="请输入佣金余额(.00可省略) 保留两位小数 示例数据: 12 等同于 12.00"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="收益总额 :" :label-width="formLabelWidth">
                     <el-input
                         clearable
                         v-model="dialogConfig.earningsBalance"
-                        placeholder="请输入收益总额(.00可省略) 保留两位小数 示例数据:12.00"
+                        placeholder="请输入收益总额(.00可省略) 保留两位小数 示例数据: 12 等同于 12.00"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="现金余额 :" :label-width="formLabelWidth">
                     <el-input
                         v-model="dialogConfig.cashBalance"
-                        placeholder="请输入现金余额(.00可省略) 保留两位小数 示例数据:12.00"
+                        placeholder="请输入现金余额(.00可省略) 保留两位小数 示例数据: 12 等同于 12.00"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="备注 :" :label-width="formLabelWidth">
