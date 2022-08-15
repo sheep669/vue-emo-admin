@@ -185,4 +185,9 @@ export default {
 .el-breadcrumb {
     margin-left: 8px;
 }
+/deep/.el-breadcrumb__separator {
+    margin: 0 5px;
+    font-weight: 550;
+    color: #7ac0ff;
+}
 </style>
