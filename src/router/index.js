@@ -28,11 +28,12 @@ const routes = [
     children: [
       {
         path: '/home',
-        component: EmoHome
+        component: EmoHome,
       }
     ],
     meta: {
-      isLogin: true
+      isLogin: true,
+      title: '首页'
     }
   },
   {

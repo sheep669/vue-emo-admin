@@ -61,6 +61,7 @@ export default {
                         path: v3.path,
                         component: () =>
                             import("@/views" + v3.component + ".vue"),
+                        meta: { title: v3.submenuTitle },
                     });
                 });
             });
