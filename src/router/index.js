@@ -29,6 +29,9 @@ const routes = [
       {
         path: '/home',
         component: EmoHome,
+        meta: {
+          title: ' 欢迎您 💖'
+        }
       }
     ],
     meta: {
