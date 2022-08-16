@@ -102,20 +102,31 @@ export default {
         },
         login() {
             doLogin(this.loginForm).then((res) => {
-                console.log(res);
-                if (res.data.code === 1007) {
-                    this.refreshCaptcha();
-                }
-                if (res.data.data.token) {
-                    let obj = {
-                        user: jwt(res.data.data.token).userInfo,
-                        token: res.data.data.token,
-                    };
-                    this.setUser(obj);
-                    this.$router.push("/home");
+                if (res.data.code === 200) {
+                    if (res.data.data.token) {
+                        let obj = {
+                            user: jwt(res.data.data.token).userInfo,
+                            token: res.data.data.token,
+                        };
+                        this.setUser(obj);
+                        this.$router.push("/home");
+                        this.$message({
+                            message: res.data.msg,
+                            type: "success",
+                            duration: 1500,
+                        });
+                    }
+                } else if (res.data.code === 1007) {
                     this.$message({
                         message: res.data.msg,
-                        type: "success",
+                        type: "error",
+                        duration: 1500,
+                    });
+                    this.refreshCaptcha();
+                } else {
+                    this.$message({
+                        message: res.data.msg,
+                        type: "error",
                         duration: 1500,
                     });
                 }

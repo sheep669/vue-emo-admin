@@ -89,7 +89,11 @@ export default {
                 if (res.data.code === 200) {
                     this.$router.push("/login");
                 } else {
-                    this.reset();
+                    this.$message({
+                        message: res.data.msg,
+                        type: "error",
+                        duration: 1500,
+                    });
                 }
             });
         },
