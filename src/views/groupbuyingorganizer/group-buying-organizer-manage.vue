@@ -650,6 +650,7 @@ export default {
                         label: "操作",
                         width: 150,
                         type: "slot",
+                        align: "center",
                         slotName: "operation",
                         fixed: "right",
                     },

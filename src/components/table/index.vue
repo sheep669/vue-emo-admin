@@ -22,6 +22,7 @@
                 <!-- 插槽类型 slot  -->
                 <el-table-column
                     v-if="item.type === 'slot'"
+                    :align="item.align"
                     :fixed="item.fixed"
                     :key="item.prop"
                     :label="item.label"
