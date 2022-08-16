@@ -12,14 +12,10 @@
         >
             <!-- 操作 -->
             <template v-slot:operation="slotData">
-                <el-button
-                    size="mini"
-                    @click="handleApproveAudit(slotData.data.id)"
+                <el-button size="mini" @click="approveAudit(slotData.data.id)"
                     >通过</el-button
                 >
-                <el-button
-                    size="mini"
-                    @click="handleRejectAudit(slotData.data.id)"
+                <el-button size="mini" @click="rejectAudit(slotData.data.id)"
                     >拒绝</el-button
                 >
                 <el-popconfirm
@@ -58,7 +54,11 @@
 <script>
 import EmoTable from "@/components/table/index";
 import constant from "@/constant/api/index";
-import { searchOrGetRequest, doDeleteRequest } from "@/api/index";
+import {
+    searchOrGetRequest,
+    doDeleteRequest,
+    doAuditRequest,
+} from "@/api/index";
 import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
     name: "UnderAudit",
@@ -74,6 +74,53 @@ export default {
     },
     methods: {
         ...mapMutations(["clearIds"]),
+        refreshTable() {
+            this.reload();
+        },
+        reload() {
+            //刷新表
+            this.isShow = false;
+            this.$nextTick(() => {
+                this.isShow = true;
+            });
+            this.getTableData();
+        },
+        approveAudit(id) {
+            doAuditRequest(constant.gbom.approveAuditUrl, id).then((res) => {
+                if (res.data.code == 200) {
+                    this.$message({
+                        message: "操作成功",
+                        type: "success",
+                        duration: 1600,
+                    });
+                    this.refreshTable();
+                } else {
+                    this.$message({
+                        message: "操作失败",
+                        type: "error",
+                        duration: 1600,
+                    });
+                }
+            });
+        },
+        rejectAudit(id) {
+            doAuditRequest(constant.gbom.rejectAuditUrl, id).then((res) => {
+                if (res.data.code == 200) {
+                    this.$message({
+                        message: "操作成功",
+                        type: "success",
+                        duration: 1600,
+                    });
+                    this.refreshTable();
+                } else {
+                    this.$message({
+                        message: "操作失败",
+                        type: "error",
+                        duration: 1600,
+                    });
+                }
+            });
+        },
         handleDelete(id) {
             console.log(id);
             doDeleteRequest(constant.gbom.deleteUrl, id).then((res) => {

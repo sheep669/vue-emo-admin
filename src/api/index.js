@@ -45,6 +45,19 @@ export function doDeleteRequest(url_param, id) {
 }
 
 /**
+ *   通用审核功能请求
+ * @param {*} url_param 请求的url参数
+ * @param {*} id        需要删除的id
+ * @returns {*} res 后端返回的响应数据
+ */
+export function doAuditRequest(url_param, id) {
+    return axios({
+        method: "post",
+        url: url_param + "/" + id,
+    })
+}
+
+/**
  *   通用查询或分页请求
  * @param {*} url_param  请求的url参数 不许参数
  * @param {*} page_param 请求分页参数 current,size 必须参数

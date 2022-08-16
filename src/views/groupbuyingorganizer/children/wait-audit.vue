@@ -53,7 +53,11 @@
 <script>
 import EmoTable from "@/components/table/index";
 import constant from "@/constant/api/index";
-import { searchOrGetRequest, doDeleteRequest } from "@/api/index";
+import {
+    searchOrGetRequest,
+    doDeleteRequest,
+    doAuditRequest,
+} from "@/api/index";
 import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
     name: "WaitAudit",
@@ -69,7 +73,34 @@ export default {
     },
     methods: {
         ...mapMutations(["clearIds"]),
+        refreshTable() {
+            this.reload();
+        },
+        reload() {
+            //刷新表
+            this.isShow = false;
+            this.$nextTick(() => {
+                this.isShow = true;
+            });
+            this.getTableData();
+        },
         handleConfirmAudit(id) {
+            doAuditRequest(constant.gbom.confirmAuditUrl, id).then((res) => {
+                if (res.data.code == 200) {
+                    this.$message({
+                        message: "操作成功",
+                        type: "success",
+                        duration: 1600,
+                    });
+                    this.refreshTable();
+                } else {
+                    this.$message({
+                        message: "操作失败",
+                        type: "error",
+                        duration: 1600,
+                    });
+                }
+            });
             console.log(id);
         },
         handleDelete(id) {

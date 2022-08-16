@@ -9,19 +9,12 @@ const gbom = {
     updateUrl: '/groupBuyingOrganizer/update',
     deleteUrl: '/groupBuyingOrganizer/delete',
     searchOrGetPageList: '/groupBuyingOrganizers/page/get',
-    getListUrl: '/getGroupBuyingOrganizerList',
-    deleteBatchUrl: 'groupBuyingOrganizer/deleteBatch'
-}
-
-const gboa = {
-    addUrl: '/groupBuyingOrganizer/add',
-    updateUrl: '/groupBuyingOrganizer/update',
-    deleteUrl: '/groupBuyingOrganizer/delete',
-    searchOrGetPageList: '/groupBuyingOrganizers/page/get',
-    getListUrl: '/getGroupBuyingOrganizerList',
+    deleteBatchUrl: '/groupBuyingOrganizer/deleteBatch',
+    confirmAuditUrl: '/groupBuyingOrganizer/audit/confirm',
+    approveAuditUrl: '/groupBuyingOrganizer/audit/approve',
+    rejectAuditUrl: '/groupBuyingOrganizer/audit/reject',
 }
 
 export default {
     gbom,
-    gboa
 }
