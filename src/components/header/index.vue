@@ -60,7 +60,9 @@
                                 ></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>个人信息</el-dropdown-item>
+                                <el-dropdown-item @click.native="openDialog"
+                                    >基本资料</el-dropdown-item
+                                >
                                 <el-dropdown-item @click.native="logout"
                                     >退出登陆</el-dropdown-item
                                 >
@@ -71,6 +73,49 @@
                 </div>
             </div>
         </div>
+        <el-dialog
+            title="基本资料"
+            :visible.sync="dialogFormVisible"
+            :close-on-click-modal="false"
+        >
+            <el-descriptions class="margin-top" :column="3" border>
+                <el-descriptions-item>
+                    <template slot="label">
+                        <i class="el-icon-user"></i>
+                        用户名
+                    </template>
+                    小明
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                        <i class="el-icon-mobile-phone"></i>
+                        手机号
+                    </template>
+                    17314003693
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                        <i class="el-icon-location-outline"></i>
+                        居住地
+                    </template>
+                    苏州市
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                        <i class="el-icon-price-tag"></i>
+                        类型
+                    </template>
+                    <el-tag size="small">管理员</el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                        <i class="el-icon-office-building"></i>
+                        联系地址
+                    </template>
+                    江苏省苏州市吴中区吴中大道 1188 号
+                </el-descriptions-item>
+            </el-descriptions>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -81,6 +126,7 @@ export default {
     data() {
         return {
             fullscreen: false,
+            dialogFormVisible: false,
         };
     },
     computed: {
@@ -90,6 +136,9 @@ export default {
         },
     },
     methods: {
+        openDialog() {
+            this.dialogFormVisible = true;
+        },
         logout() {
             doLogout().then((res) => {
                 console.log(res.data.msg);

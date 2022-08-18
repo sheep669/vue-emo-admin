@@ -85,8 +85,12 @@ import {
   MessageBox,
   Message,
   Notification,
-  Popconfirm
+  Popconfirm,
+  Descriptions,
+  DescriptionsItem
 } from 'element-ui';
+Vue.use(Descriptions);
+Vue.use(DescriptionsItem);
 Vue.use(Popconfirm);
 Vue.use(Pagination);
 Vue.use(Dialog);
