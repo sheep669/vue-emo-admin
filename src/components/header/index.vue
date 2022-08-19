@@ -69,7 +69,7 @@
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
-                    <span class="user">{{ userinfo.user }}</span>
+                    <span class="user">{{ userinfo.user.username }}</span>
                 </div>
             </div>
         </div>
@@ -84,35 +84,56 @@
                         <i class="el-icon-user"></i>
                         用户名
                     </template>
-                    小明
+                    {{ userinfo.user.username }}
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                         <i class="el-icon-mobile-phone"></i>
                         手机号
                     </template>
-                    17314003693
+                    {{ userinfo.user.phoneNumber }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                        <i class="el-icon-wallet"></i>
+                        账户余额
+                    </template>
+                    {{ userinfo.user.accountBalance }}
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                         <i class="el-icon-location-outline"></i>
                         居住地
                     </template>
-                    苏州市
+                    {{ userinfo.user.location }}
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                         <i class="el-icon-price-tag"></i>
                         类型
                     </template>
-                    <el-tag size="small">管理员</el-tag>
+                    <el-tag v-if="userinfo.user.userType == '1'" size="small"
+                        >普通会员</el-tag
+                    >
+                    <el-tag v-if="userinfo.user.userType == '2'" size="small"
+                        >超级会员</el-tag
+                    >
+                    <el-tag v-if="userinfo.user.userType == '3'" size="small"
+                        >商铺会员</el-tag
+                    >
+                    <el-tag v-if="userinfo.user.userType == '4'" size="small"
+                        >团长</el-tag
+                    >
+                    <el-tag v-if="userinfo.user.userType == '5'" size="small"
+                        >管理员</el-tag
+                    >
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                         <i class="el-icon-office-building"></i>
                         联系地址
                     </template>
-                    江苏省苏州市吴中区吴中大道 1188 号
+                    {{ userinfo.user.address }}
                 </el-descriptions-item>
             </el-descriptions>
         </el-dialog>

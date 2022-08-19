@@ -7,7 +7,7 @@ export default {
     namespaced: true,
     state: {
         userinfo: {
-            user: '',
+            user: {},
             token: ''
         }
     },
