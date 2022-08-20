@@ -5,7 +5,9 @@
 -->
 <template>
     <div id="emo-footer">
-        <el-footer> Copyright © 2022 Created by sheep669 All Rights Reserved</el-footer>
+        <el-footer>
+            Copyright © 2022 Designed by sheep669 All Rights Reserved</el-footer
+        >
     </div>
 </template>
 <script>

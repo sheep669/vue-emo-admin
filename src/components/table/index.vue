@@ -33,9 +33,27 @@
                         <slot :name="item.slotName" :data="scope.row"></slot>
                     </template>
                 </el-table-column>
-                <!-- 数据类型 function  -->
+                <!-- 功能型默认 function  -->
                 <el-table-column
                     v-else-if="item.type === 'function'"
+                    :key="item.prop"
+                    :label="item.label"
+                    :prop="item.prop"
+                    :width="item.width"
+                >
+                    <template slot-scope="scope">
+                        <!-- item.callback(scope.row,item.prop) 把数据传出去  scope.row 传出去 -->
+                        <el-tag>
+                            {{
+                                item.callback &&
+                                item.callback(scope.row, item.prop)
+                            }}</el-tag
+                        >
+                    </template>
+                </el-table-column>
+                <!-- 功能型 aduit  -->
+                <el-table-column
+                    v-else-if="item.type === 'aduit'"
                     :key="item.prop"
                     :label="item.label"
                     :prop="item.prop"

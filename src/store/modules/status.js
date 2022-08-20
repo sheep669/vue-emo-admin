@@ -11,6 +11,11 @@ const state = {
         { label: "审核中", value: 2 },
         { label: "通过", value: 3 },
         { label: "不予通过", value: 4 }
+    ],
+    goods_status: [
+        { label: "出库中", value: 1 },
+        { label: "仓库中", value: 2 },
+        { label: "已售罄", value: 0 },
     ]
 }
 

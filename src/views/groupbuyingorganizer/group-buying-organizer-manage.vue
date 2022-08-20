@@ -642,7 +642,7 @@ export default {
                     {
                         label: "审核状态",
                         prop: "auditStatus",
-                        type: "function",
+                        type: "aduit",
                         callback: (row) => {
                             const data = this.audit_status.filter(
                                 (item) => item.value == row.auditStatus
