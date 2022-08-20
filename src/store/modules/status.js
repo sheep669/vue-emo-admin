@@ -16,6 +16,15 @@ const state = {
         { label: "出库中", value: 1 },
         { label: "仓库中", value: 2 },
         { label: "已售罄", value: 0 },
+    ],
+    orders_status: [
+        { label: "待付款", value: 1 },
+        { label: "待备货", value: 2 },
+        { label: "备货中", value: 3 },
+        { label: "配送中", value: 4 },
+        { label: "待提货", value: 5 },
+        { label: "已提货(交易完成)", value: 6 },
+        { label: "已关闭", value: 0 },
     ]
 }
 
