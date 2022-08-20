@@ -13,6 +13,7 @@ const gbom = {
     confirmAuditUrl: '/groupBuyingOrganizer/audit/confirm',
     approveAuditUrl: '/groupBuyingOrganizer/audit/approve',
     rejectAuditUrl: '/groupBuyingOrganizer/audit/reject',
+    reAuditUrl: '/groupBuyingOrganizer/audit/reAudit'
 }
 
 export default {

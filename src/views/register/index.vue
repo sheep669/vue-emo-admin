@@ -87,12 +87,19 @@ export default {
             doRegister(this.registerForm).then((res) => {
                 console.log(res);
                 if (res.data.code === 200) {
+                    this.$message({
+                        showClose: true,
+                        message: "注册成功",
+                        type: "success",
+                        duration: 1000,
+                    });
                     this.$router.push("/login");
                 } else {
                     this.$message({
+                        showClose: true,
                         message: res.data.msg,
                         type: "error",
-                        duration: 1500,
+                        duration: 1000,
                     });
                 }
             });

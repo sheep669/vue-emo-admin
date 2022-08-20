@@ -541,11 +541,19 @@ export default {
             let url = constant.gbom.updateUrl;
             doPostRequest(url, updateParam).then((res) => {
                 if (res.data.code == 200) {
-                    this.$message({
-                        message: "修改成功",
-                        duration: 1600,
-                        type: "success",
-                    });
+                    if (status == 0) {
+                        this.$message({
+                            message: "团长状态已禁用",
+                            duration: 1600,
+                            type: "success",
+                        });
+                    } else if (status == 1) {
+                        this.$message({
+                            message: "团长状态已启用",
+                            duration: 1600,
+                            type: "success",
+                        });
+                    }
                 } else {
                     this.$message({
                         message: "修改失败,请检查网络或者服务器",
@@ -623,11 +631,11 @@ export default {
                     { label: "收益总额", prop: "earningsBalance", width: 90 },
                     { label: "现金余额", prop: "cashBalance", width: 90 },
                     {
-                        label: "团长状态",
+                        label: "团长状态(禁/启)",
                         prop: "groupBuyingOrganizerStatus",
                         type: "slot",
                         slotName: "status",
-                        width: 100,
+                        width: 140,
                     },
                     { label: "备注", prop: "remark", width: 200 },
                     { label: "推荐人", prop: "referrer", width: 100 },

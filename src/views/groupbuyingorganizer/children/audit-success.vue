@@ -12,6 +12,9 @@
         >
             <!-- 操作 -->
             <template v-slot:operation="slotData">
+                <el-button size="mini" @click="reAudit(slotData.data.id)"
+                    >重新审核</el-button
+                >
                 <el-popconfirm
                     @confirm="handleDelete(slotData.data.id)"
                     confirm-button-text="确认"
@@ -48,7 +51,11 @@
 <script>
 import EmoTable from "@/components/table/index";
 import constant from "@/constant/api/index";
-import { searchOrGetRequest, doDeleteRequest } from "@/api/index";
+import {
+    searchOrGetRequest,
+    doDeleteRequest,
+    doAuditRequest,
+} from "@/api/index";
 import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
     name: "AuditSuccess",
@@ -64,6 +71,35 @@ export default {
     },
     methods: {
         ...mapMutations(["clearIds"]),
+        refreshTable() {
+            this.reload();
+        },
+        reload() {
+            //刷新表
+            this.isShow = false;
+            this.$nextTick(() => {
+                this.isShow = true;
+            });
+            this.getTableData();
+        },
+        reAudit(id) {
+            doAuditRequest(constant.gbom.reAuditUrl, id).then((res) => {
+                if (res.data.code == 200) {
+                    this.$message({
+                        message: "操作成功",
+                        type: "success",
+                        duration: 1600,
+                    });
+                    this.refreshTable();
+                } else {
+                    this.$message({
+                        message: "操作失败",
+                        type: "error",
+                        duration: 1600,
+                    });
+                }
+            });
+        },
         handleDelete(id) {
             console.log(id);
             doDeleteRequest(constant.gbom.deleteUrl, id).then((res) => {
@@ -180,7 +216,7 @@ export default {
                     { label: "申请时间", prop: "applyTime", width: 160 },
                     {
                         label: "操作",
-                        width: 90,
+                        width: 210,
                         type: "slot",
                         align: "center",
                         slotName: "operation",
