@@ -68,6 +68,50 @@ const orders = {
     searchOrGetPageList: '/orders/page/get',
     deleteBatchUrl: '/orders/deleteBatch',
 }
+/**
+ *   操作佣金流水
+ */
+const cs = {
+    addUrl: '/commissionSerial/add',
+    updateUrl: '/commissionSerial/update',
+    deleteUrl: '/commissionSerial/delete',
+    searchOrGetPageList: '/commissionSerials/page/get',
+    deleteBatchUrl: '/commissionSerials/deleteBatch',
+}
+/**
+ *   操作交易流水
+ */
+const ds = {
+    addUrl: '/dealSerial/add',
+    updateUrl: '/dealSerial/update',
+    deleteUrl: '/dealSerial/delete',
+    searchOrGetPageList: '/dealSerials/page/get',
+    deleteBatchUrl: '/dealSerials/deleteBatch',
+}
+/**
+ *   操作团长结算
+ */
+const gboc = {
+    addUrl: '/groupBuyingOrganizerClear/add',
+    updateUrl: '/groupBuyingOrganizerClear/update',
+    deleteUrl: '/groupBuyingOrganizerClear/delete',
+    searchOrGetPageList: '/groupBuyingOrganizerClears/page/get',
+    deleteBatchUrl: '/groupBuyingOrganizerClears/deleteBatch',
+}
+/**
+ *   操作团长提现信息
+ */
+const gbowi = {
+    addUrl: '/groupBuyingOrganizerWithdrawalInformation/add',
+    updateUrl: '/groupBuyingOrganizerWithdrawalInformation/update',
+    deleteUrl: '/groupBuyingOrganizerWithdrawalInformation/delete',
+    searchOrGetPageList: '/groupBuyingOrganizerWithdrawalInformation/page/get',
+    deleteBatchUrl: '/groupBuyingOrganizerWithdrawalInformation/deleteBatch',
+    confirmAuditUrl: '/groupBuyingOrganizerWithdrawalInformation/audit/confirm',
+    approveAuditUrl: '/groupBuyingOrganizerWithdrawalInformation/audit/approve',
+    rejectAuditUrl: '/groupBuyingOrganizerWithdrawalInformation/audit/reject',
+    reAuditUrl: '/groupBuyingOrganizerWithdrawalInformation/audit/reAudit'
+}
 
 export default {
     gbom,
@@ -75,5 +119,9 @@ export default {
     gl,
     gco,
     gca,
-    orders
+    orders,
+    cs,
+    ds,
+    gboc,
+    gbowi
 }

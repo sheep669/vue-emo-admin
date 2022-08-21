@@ -59,7 +59,7 @@ export function doAuditRequest(url_param, id) {
 
 /**
  *   通用查询或分页请求
- * @param {*} url_param  请求的url参数 不许参数
+ * @param {*} url_param  请求的url参数 必须参数
  * @param {*} page_param 请求分页参数 current,size 必须参数
  * @param {*} data_param 需要提交的查询数据 非必须参数
  * @returns {*} res 后端返回的响应数据
