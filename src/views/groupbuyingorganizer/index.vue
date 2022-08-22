@@ -41,7 +41,7 @@ export default {
     created() {
         this.getSubMenuData();
         //默认重定向到子路由的第一个path
-        this.$router.push("/group_buying_organizer_manage");
+        this.$router.push(this.activeIndex);
     },
     methods: {
         getSubMenuData() {
