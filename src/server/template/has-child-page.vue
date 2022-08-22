@@ -30,7 +30,7 @@
 import { mapGetters } from "vuex";
 import EmoSubmenu from "@/components/submenu/index";
 export default {
-    name: "replace3",
+    name: "replace2",
     data() {
         return {
             subMenuData: [],
@@ -41,14 +41,14 @@ export default {
     created() {
         this.getSubMenuData();
         //默认重定向到子路由的第一个path
-        this.$router.push("replace1");
+        this.$router.push(this.activeIndex);
     },
     methods: {
         getSubMenuData() {
-            // console.log("全部路由", this.$router.options.routes);
+            console.log("全部路由", this.$router.options.routes);
             this.navData.forEach((v) => {
                 //按需提取子路由
-                if (v.name == "replace2") {
+                if (v.name == "replace1") {
                     this.subMenuData = v.children;
                     this.activeIndex = v.children[0].submenu[0].path;
                     return;
@@ -57,7 +57,7 @@ export default {
             this.subMenuData.forEach((v2) => {
                 v2.submenu.forEach((v3) => {
                     //按需添加子路由
-                    this.$router.addRoute("replace2", {
+                    this.$router.addRoute("replace1", {
                         path: v3.path,
                         component: () =>
                             import("@/views" + v3.component + ".vue"),
