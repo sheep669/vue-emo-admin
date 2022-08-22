@@ -1,6 +1,6 @@
 /*
  * @Author: sheep669
- * @Description: 类型状态统一管理
+ * @Description: 状态统一管理
  * @Date: 2022-08-08 21:04:02
  */
 
@@ -25,7 +25,16 @@ const state = {
         { label: "待提货", value: 5 },
         { label: "已提货(交易完成)", value: 6 },
         { label: "已关闭", value: 0 },
-    ]
+    ],
+    member_status: [
+        { label: "白名单", value: 1 },
+        { label: "黑名单", value: 0 },
+    ],
+    member_valid_status: [
+        { label: "生效", value: 1 },
+        { label: "失效", value: 2 },
+        { label: "已结束", value: 3 },
+    ],
 }
 
 export default {

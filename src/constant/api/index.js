@@ -112,6 +112,36 @@ const gbowi = {
     rejectAuditUrl: '/groupBuyingOrganizerWithdrawalInformation/audit/reject',
     reAuditUrl: '/groupBuyingOrganizerWithdrawalInformation/audit/reAudit'
 }
+/**
+ *   操作会员
+ */
+const member = {
+    addUrl: '/member/add',
+    updateUrl: '/member/update',
+    deleteUrl: '/member/delete',
+    searchOrGetPageList: '/members/page/get',
+    deleteBatchUrl: '/members/deleteBatch',
+}
+/**
+ *   操作会员标签
+ */
+const ml = {
+    addUrl: '/memberLabel/add',
+    updateUrl: '/memberLabel/update',
+    deleteUrl: '/memberLabel/delete',
+    searchOrGetPageList: '/memberLabels/page/get',
+    deleteBatchUrl: '/memberLabels/deleteBatch',
+}
+/**
+ *   操作会员优惠权限
+ */
+const mdp = {
+    addUrl: '/memberDiscountPrivilege/add',
+    updateUrl: '/memberDiscountPrivilege/update',
+    deleteUrl: '/memberDiscountPrivilege/delete',
+    searchOrGetPageList: '/memberDiscountPrivileges/page/get',
+    deleteBatchUrl: '/memberDiscountPrivileges/deleteBatch',
+}
 
 export default {
     gbom,
@@ -123,5 +153,8 @@ export default {
     cs,
     ds,
     gboc,
-    gbowi
+    gbowi,
+    member,
+    ml,
+    mdp
 }

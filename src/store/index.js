@@ -7,6 +7,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import loginModule from './modules/loginModule.js'
 import status from './modules/status.js'
+import type from './modules/type.js'
 import saveData from 'vue-savedata'
 
 Vue.use(Vuex)
@@ -41,7 +42,8 @@ export default new Vuex.Store({
   },
   modules: {
     loginModule,
-    status
+    status,
+    type
   },
   plugins: [saveData()]
 })
