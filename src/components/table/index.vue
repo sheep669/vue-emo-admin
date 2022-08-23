@@ -7,7 +7,7 @@
             border
             max-width="250"
             height="520"
-            empty-text="没有数据！"
+            empty-text="暂无数据"
             @selection-change="handleSelectionChange"
         >
             <!-- 表头checkbox选框默认设置 -->
@@ -186,4 +186,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/deep/.el-table__empty-text {
+    display: flex;
+}
 </style>

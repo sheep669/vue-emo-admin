@@ -142,6 +142,40 @@ const mdp = {
     searchOrGetPageList: '/memberDiscountPrivileges/page/get',
     deleteBatchUrl: '/memberDiscountPrivileges/deleteBatch',
 }
+/**
+ *   操作配送单管理
+ */
+const dpm = {
+    addUrl: '/deliveryPaper/add',
+    updateUrl: '/deliveryPaper/update',
+    deleteUrl: '/deliveryPaper/delete',
+    searchOrGetPageList: '/deliveryPapers/page/get',
+    deleteBatchUrl: '/deliveryPapers/deleteBatch',
+}
+/**
+ *   操作配送路线
+ */
+const dr = {
+    addUrl: '/deliveryRoutes/add',
+    updateUrl: '/deliveryRoutes/update',
+    deleteUrl: '/deliveryRoutes/delete',
+    searchOrGetPageList: '/deliveryRoutes/page/get',
+    deleteBatchUrl: '/deliveryRoutes/deleteBatch',
+}
+/**
+ *   操作售后表
+ */
+const as = {
+    addUrl: '/afterSale/add',
+    updateUrl: '/afterSale/update',
+    deleteUrl: '/afterSale/delete',
+    searchOrGetPageList: '/afterSales/page/get',
+    deleteBatchUrl: '/afterSales/deleteBatch',
+    confirmAuditUrl: '/afterSale/audit/confirm',
+    approveAuditUrl: '/afterSale/audit/approve',
+    rejectAuditUrl: '/afterSale/audit/reject',
+    reAuditUrl: '/afterSale/audit/reAudit'
+}
 
 export default {
     gbom,
@@ -156,5 +190,8 @@ export default {
     gbowi,
     member,
     ml,
-    mdp
+    mdp,
+    dpm,
+    dr,
+    as
 }

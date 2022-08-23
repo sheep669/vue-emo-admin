@@ -124,15 +124,7 @@ export default {
                 data
             ).then((res) => {
                 if (res.data.code == 200) {
-                    let records = res.data.data.records;
-                    if (records.length == 0) {
-                        this.$message({
-                            message: "数据库里空荡荡的,要不您添加几条",
-                            duration: 1600,
-                            type: "warning",
-                        });
-                    }
-                    this.table_data = records;
+                    this.table_data = res.data.data.records;
                     this.total = res.data.data.total;
                 } else {
                     this.$message({
@@ -156,15 +148,7 @@ export default {
                 data
             ).then((res) => {
                 if (res.data.code == 200) {
-                    let records = res.data.data.records;
-                    if (records.length == 0) {
-                        this.$message({
-                            message: "数据库里空荡荡的,要不您添加几条",
-                            duration: 1600,
-                            type: "warning",
-                        });
-                    }
-                    this.table_data = records;
+                    this.table_data = res.data.data.records;
                     this.total = res.data.data.total;
                 } else {
                     this.$message({

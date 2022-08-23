@@ -71,6 +71,7 @@ export default {
     computed: {
         ...mapGetters(["delIds"]),
         ...mapState("status", ["audit_status"]),
+        ...mapState("type", ["order_after_sale_type", "refund_type"]),
     },
     methods: {
         ...mapMutations(["clearIds"]),
@@ -86,7 +87,7 @@ export default {
             this.getTableData();
         },
         approveAudit(id) {
-            doAuditRequest(constant.gbom.approveAuditUrl, id).then((res) => {
+            doAuditRequest(constant.as.approveAuditUrl, id).then((res) => {
                 if (res.data.code == 200) {
                     this.$message({
                         message: "操作成功",
@@ -104,7 +105,7 @@ export default {
             });
         },
         rejectAudit(id) {
-            doAuditRequest(constant.gbom.rejectAuditUrl, id).then((res) => {
+            doAuditRequest(constant.as.rejectAuditUrl, id).then((res) => {
                 if (res.data.code == 200) {
                     this.$message({
                         message: "操作成功",
@@ -123,7 +124,7 @@ export default {
         },
         handleDelete(id) {
             console.log(id);
-            doDeleteRequest(constant.gbom.deleteUrl, id).then((res) => {
+            doDeleteRequest(constant.as.deleteUrl, id).then((res) => {
                 console.log(res);
                 if (res.data.code === 200) {
                     this.$message({
@@ -135,9 +136,9 @@ export default {
             });
         },
         getTableData() {
-            let data = { auditStatus: "2" };
+            let data = { auditStatus: "2", orderAfterSaleType: "0" };
             searchOrGetRequest(
-                constant.gbom.searchOrGetPageList,
+                constant.as.searchOrGetPageList,
                 this.page,
                 data
             ).then((res) => {
@@ -159,9 +160,9 @@ export default {
         },
         handleCurrentChange(val) {
             let page_parm = { current: val, size: this.page.size };
-            let data = { auditStatus: "2" };
+            let data = { auditStatus: "2", orderAfterSaleType: "0" };
             searchOrGetRequest(
-                constant.gbom.searchOrGetPageList,
+                constant.as.searchOrGetPageList,
                 page_parm,
                 data
             ).then((res) => {
@@ -185,26 +186,36 @@ export default {
             page: { current: 1, size: 8 },
             table_data: [],
             isShow: true,
-            /**
-             * 传递表头配置
-             */
+            request_config: {
+                form: {
+                    goodsName: null,
+                    totalStocks: null,
+                    serialNumber: null,
+                },
+            },
             table_config: {
                 thead: [
                     {
-                        label: "会员ID",
+                        label: "售后单ID",
                         prop: "id",
                         fixed: "left",
-                        width: 70,
+                        width: 80,
                     },
                     {
-                        label: "推荐团长",
-                        prop: "recommendGroupBuyingOrganizer",
-                        width: 100,
+                        label: "订单号",
+                        prop: "orderNo",
+                        width: 140,
                     },
-                    { label: "联系方式", prop: "phoneNumber", width: 120 },
-                    { label: "店铺名称", prop: "storeName", width: 150 },
-                    { label: "提货地址", prop: "receiverAddress", width: 230 },
-                    { label: "推荐人", prop: "referrer", width: 100 },
+                    { label: "订单id", prop: "orderId", width: 80 },
+                    {
+                        label: "商品id",
+                        prop: "goodsId",
+                        width: 80,
+                    },
+                    { label: "用户id", prop: "userId", width: 80 },
+                    { label: "店铺名称", prop: "storeName", width: 180 },
+                    { label: "商品名称", prop: "goodsName", width: 140 },
+                    { label: "买家姓名", prop: "buyerName", width: 100 },
                     {
                         label: "审核状态",
                         prop: "auditStatus",
@@ -219,7 +230,49 @@ export default {
                         },
                         width: 100,
                     },
+                    {
+                        label: "业务类型",
+                        prop: "orderAfterSaleType",
+                        width: 100,
+                        type: "function",
+                        callback: (row, prop) => {
+                            const data = this.order_after_sale_type.filter(
+                                (item) => item.value == row[prop]
+                            );
+                            if (data && data.length > 0) {
+                                return data[0].label;
+                            }
+                        },
+                    },
+                    {
+                        label: "退款类型",
+                        prop: "refundType",
+                        width: 100,
+                        type: "function",
+                        callback: (row, prop) => {
+                            const data = this.refund_type.filter(
+                                (item) => item.value == row[prop]
+                            );
+                            if (data && data.length > 0) {
+                                return data[0].label;
+                            }
+                        },
+                    },
+                    { label: "申请原因", prop: "reason", width: 150 },
+                    {
+                        label: "退货数量",
+                        prop: "orderAfterSaleNumber",
+                        width: 90,
+                    },
+                    { label: "退款金额", prop: "price", width: 90 },
+                    {
+                        label: "退款说明",
+                        prop: "refundInstruction",
+                        width: 140,
+                    },
+                    { label: "凭证图片", prop: "images", width: 100 },
                     { label: "申请时间", prop: "applyTime", width: 160 },
+                    { label: "退货时间", prop: "deliveryTime", width: 160 },
                     {
                         label: "操作",
                         width: 210,
