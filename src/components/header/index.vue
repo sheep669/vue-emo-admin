@@ -17,32 +17,6 @@
                 </el-breadcrumb>
             </div>
             <div class="right">
-                <div class="fullscreen">
-                    <el-tooltip
-                        effect="dark"
-                        content="打开全屏"
-                        placement="left"
-                    >
-                        <i
-                            v-show="fullscreen === false"
-                            class="el-icon-full-screen"
-                            @click="fullOrEscScreen"
-                            style="font-size: 25px; font-weight: 400"
-                        ></i>
-                    </el-tooltip>
-                    <el-tooltip
-                        effect="dark"
-                        content="退出全屏"
-                        placement="left"
-                    >
-                        <i
-                            v-show="fullscreen === true"
-                            class="el-icon-rank"
-                            @click="fullOrEscScreen"
-                            style="font-size: 25px; font-weight: 400"
-                        ></i>
-                    </el-tooltip>
-                </div>
                 <div class="notice">
                     <el-badge value="new" class="item">
                         <el-button size="mini">通知</el-button>
@@ -69,7 +43,7 @@
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
-                    <span class="user">{{ userinfo.user.username }}</span>
+                    <div class="user">{{ userinfo.user.username }}</div>
                 </div>
             </div>
         </div>
@@ -146,7 +120,6 @@ export default {
     name: "EmoHeader",
     data() {
         return {
-            fullscreen: false,
             dialogFormVisible: false,
         };
     },
@@ -177,36 +150,6 @@ export default {
                 }
             });
         },
-        fullOrEscScreen() {
-            let element = document.documentElement;
-            // 判断是否已经是全屏
-            // 如果是全屏，退出
-            if (this.fullscreen) {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitCancelFullScreen) {
-                    document.webkitCancelFullScreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-            } else {
-                // 否则，进入全屏
-                if (element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if (element.webkitRequestFullScreen) {
-                    element.webkitRequestFullScreen();
-                } else if (element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen();
-                } else if (element.msRequestFullscreen) {
-                    // IE11
-                    element.msRequestFullscreen();
-                }
-            }
-            // 改变当前全屏状态
-            this.fullscreen = !this.fullscreen;
-        },
     },
 };
 </script>
@@ -227,26 +170,25 @@ export default {
     justify-content: space-between;
     align-items: center;
 }
-.fullscreen {
-    margin-left: 9px;
-}
 .right {
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    .user {
-        line-height: 60px;
-        margin-right: 24px;
-    }
 }
 .info {
     width: 160px;
     display: flex;
     justify-content: space-around;
+    margin-right: 12px;
+}
+.user {
+    line-height: 60px;
+    // padding-right: 8px;
+    text-align: center;
 }
 .notice {
-    margin-right: 25px;
+    margin-right: 35px;
     margin-left: 12px;
 }
 .avatar {

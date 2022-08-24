@@ -294,6 +294,9 @@ export default {
     created() {
         this.getTableData();
     },
+    beforeDestroy() {
+        this.clearIds();
+    },
     methods: {
         ...mapMutations(["clearIds"]),
         doAddOrEdit() {
@@ -527,13 +530,13 @@ export default {
                 if (res.data.code == 200) {
                     if (status == 0) {
                         this.$message({
-                            message: "团长状态已禁用",
+                            message: "该团长已禁用",
                             duration: 1600,
                             type: "success",
                         });
                     } else if (status == 1) {
                         this.$message({
-                            message: "团长状态已启用",
+                            message: "该团长已启用",
                             duration: 1600,
                             type: "success",
                         });
@@ -602,6 +605,7 @@ export default {
                     {
                         label: "推荐团长",
                         prop: "recommendGroupBuyingOrganizer",
+                        fixed: "left",
                         width: 100,
                     },
                     { label: "联系方式", prop: "phoneNumber", width: 120 },

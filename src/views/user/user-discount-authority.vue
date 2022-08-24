@@ -57,22 +57,22 @@ export default {
                         label: "会员优惠权限ID",
                         prop: "id",
                         fixed: "left",
-                        width: 140,
+                        width: 130,
                     },
                     {
                         label: "优惠类型",
                         prop: "discountType",
-                        width: 400,
+                        width: 340,
                     },
                     {
                         label: "标签所属会员ID",
                         prop: "memberId",
-                        width: 140,
+                        width: 130,
                     },
                     {
                         label: "状态",
                         prop: "status",
-                        width: 90,
+                        width: 100,
                         type: "function",
                         callback: (row, prop) => {
                             const data = this.member_valid_status.filter(
@@ -87,7 +87,6 @@ export default {
                         label: "操作",
                         width: 200,
                         type: "slot",
-                        align: "center",
                         slotName: "operation",
                         fixed: "right",
                     },

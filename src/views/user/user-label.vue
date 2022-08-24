@@ -62,19 +62,18 @@ export default {
                     {
                         label: "标签名",
                         prop: "labelName",
-                        width: 250,
+                        width: 200,
                     },
-                    { label: "描述", prop: "description", width: 350 },
+                    { label: "描述", prop: "description", width: 200 },
                     {
                         label: "标签所属会员ID",
                         prop: "memberId",
-                        width: 150,
+                        width: 200,
                     },
                     {
                         label: "操作",
                         width: 200,
                         type: "slot",
-                        align: "center",
                         slotName: "operation",
                         fixed: "right",
                     },

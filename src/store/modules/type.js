@@ -21,6 +21,14 @@ const state = {
             { label: "退至钱包", value: 1 },
             { label: "手动处理", value: 2 },
         ],
+    user_type:
+        [
+            { label: "普通会员", value: 1 },
+            { label: "超级会员", value: 2 },
+            { label: "商铺会员", value: 3 },
+            { label: "团长", value: 4 },
+            { label: "管理员", value: 5 },
+        ],
 
 }
 

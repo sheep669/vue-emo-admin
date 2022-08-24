@@ -177,6 +177,47 @@ const as = {
     reAuditUrl: '/afterSale/audit/reAudit'
 }
 
+/**
+ *   操作用户
+ */
+const user = {
+    addUrl: '/user/add',
+    updateUrl: '/user/update',
+    deleteUrl: '/user/delete',
+    searchOrGetPageList: '/users/page/get',
+    deleteBatchUrl: '/users/deleteBatch',
+}
+/**
+ *   操作用户类型
+ */
+const ut = {
+    addUrl: '/userType/add',
+    updateUrl: '/userType/update',
+    deleteUrl: '/userType/delete',
+    searchOrGetPageList: '/userTypes/page/get',
+    deleteBatchUrl: '/userTypes/deleteBatch',
+}
+/**
+ *   操作登录日志
+ */
+const sll = {
+    addUrl: '/systemLoginLog/add',
+    updateUrl: '/systemLoginLog/update',
+    deleteUrl: '/systemLoginLog/delete',
+    searchOrGetPageList: '/systemLoginLogs/page/get',
+    deleteBatchUrl: '/systemLoginLogs/deleteBatch',
+}
+/**
+ *   操作操作日志
+ */
+const sol = {
+    addUrl: '/systemOperateLog/add',
+    updateUrl: '/systemOperateLog/update',
+    deleteUrl: '/systemOperateLog/delete',
+    searchOrGetPageList: '/systemOperateLogs/page/get',
+    deleteBatchUrl: '/systemOperateLogs/deleteBatch',
+}
+
 export default {
     gbom,
     goods,
@@ -193,5 +234,9 @@ export default {
     mdp,
     dpm,
     dr,
-    as
+    as,
+    user,
+    ut,
+    sll,
+    sol
 }

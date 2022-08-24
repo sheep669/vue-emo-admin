@@ -35,6 +35,10 @@ const state = {
         { label: "失效", value: 2 },
         { label: "已结束", value: 3 },
     ],
+    operate_result: [
+        { label: "成功", value: 1 },
+        { label: "失败", value: 2 },
+    ],
 }
 
 export default {

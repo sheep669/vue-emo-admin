@@ -7,11 +7,94 @@
     <!-- suggest to replace '_'===> '-' -->
     <div class="out_stock">
         <el-card shadow="always" body-style="0px" style="margin: 8px">
+            <div class="filter-form">
+                <el-row>
+                    <el-col :span="1">
+                        <el-tooltip
+                            effect="dark"
+                            content="刷新表格"
+                            placement="left-start"
+                        >
+                            <el-button
+                                @click="refreshTable"
+                                icon="el-icon-refresh-right"
+                                circle
+                                size="medium"
+                            ></el-button>
+                        </el-tooltip>
+                    </el-col>
+                    <el-col :span="16">
+                        <el-form label-width="100px" class="emo-form-inline">
+                            <el-form-item label="商品名称">
+                                <el-input
+                                    clearable
+                                    v-model="request_config.form.goodsName"
+                                    placeholder="请输入商品名称"
+                                ></el-input>
+                            </el-form-item>
+                            <el-form-item label="商品分类">
+                                <el-input
+                                    clearable
+                                    v-model="request_config.form.goodsCategory"
+                                    placeholder="请输入商品分类"
+                                ></el-input>
+                            </el-form-item>
+                            <el-form-item label="真实销量">
+                                <el-input
+                                    clearable
+                                    v-model="request_config.form.realSales"
+                                    placeholder="请输入真实销量"
+                                ></el-input>
+                            </el-form-item>
+                        </el-form>
+                    </el-col>
+                    <el-col :span="3" class="serachBtn">
+                        <div>
+                            <el-button
+                                type="primary"
+                                icon="el-icon-search"
+                                @click="serachData"
+                                >查询</el-button
+                            >
+                        </div>
+                    </el-col>
+                    <el-col :span="4">
+                        <div class="pull-right">
+                            <el-button
+                                type="danger"
+                                icon="el-icon-delete"
+                                @click="delBatch"
+                                >批量删除</el-button
+                            >
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
             <emo-table
                 :config="table_config"
                 :tableData="table_data"
                 :isShow="isShow"
-            ></emo-table>
+            >
+                <!-- 操作 -->
+                <template v-slot:operation="slotData">
+                    <el-popconfirm
+                        @confirm="handleDelete(slotData.data.id)"
+                        confirm-button-text="确认"
+                        cancel-button-text="取消"
+                        icon="el-icon-info"
+                        icon-color="red"
+                        title="确定删除吗?"
+                    >
+                        <el-button
+                            style="margin-left: 4px"
+                            slot="reference"
+                            size="mini"
+                            type="danger"
+                            >删除</el-button
+                        >
+                    </el-popconfirm>
+                </template>
+            </emo-table>
             <div style="margin-top: 10px">
                 <el-pagination
                     @size-change="handleSizeChange"
@@ -30,7 +113,7 @@
 </template>
 <script>
 import constant from "@/constant/api/index";
-import { searchOrGetRequest } from "@/api/index";
+import { searchOrGetRequest, doPostRequest } from "@/api/index";
 import EmoTable from "@/components/table/index";
 import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
@@ -44,6 +127,16 @@ export default {
             page: { current: 1, size: 8 },
             table_data: [],
             isShow: true,
+            request_config: {
+                form: {
+                    //默认
+                    goodsStatus: "",
+                    //筛选项
+                    goodsName: "",
+                    goodsCategory: "",
+                    realSales: "",
+                },
+            },
             table_config: {
                 thead: [
                     {
@@ -82,14 +175,14 @@ export default {
                         width: 100,
                     },
                     { label: "产生时间", prop: "makeTime", width: 160 },
-                    // {
-                    //     label: "操作",
-                    //     width: 150,
-                    //     type: "slot",
-                    //     align: "center",
-                    //     slotName: "operation",
-                    //     fixed: "right",
-                    // },
+                    {
+                        label: "操作",
+                        width: 100,
+                        type: "slot",
+                        align: "center",
+                        slotName: "operation",
+                        fixed: "right",
+                    },
                 ],
                 checkbox: true,
             },
@@ -102,8 +195,83 @@ export default {
     created() {
         this.getTableData();
     },
+    beforeDestroy() {
+        this.clearIds();
+    },
     methods: {
         ...mapMutations(["clearIds"]),
+        delBatch() {
+            if (this.delIds.length == 0) {
+                this.$message({
+                    message: "请至少选择一条数据",
+                    type: "warning",
+                });
+            } else {
+                doPostRequest(constant.goods.deleteBatchUrl, this.delIds).then(
+                    (res) => {
+                        console.log(res);
+                        if (res.data.code === 200) {
+                            this.$message({
+                                message: "批量删除成功",
+                                type: "success",
+                            });
+                        }
+                    }
+                );
+                this.refreshTable();
+                this.clearIds();
+            }
+        },
+        serachData() {
+            let isInput = false;
+            let page_parm = { current: 1, size: this.page.size };
+            let data_param = this.request_config.form;
+            Object.keys(data_param).forEach((v) => {
+                if (!data_param[v] == null || !data_param[v] == "") {
+                    isInput = true;
+                }
+            });
+            if (isInput) {
+                data_param.goodsStatus = "1";
+                searchOrGetRequest(
+                    constant.goods.searchOrGetPageList,
+                    page_parm,
+                    data_param
+                ).then((res) => {
+                    if (res.data.code == 200) {
+                        let records = res.data.data.records;
+                        if (records.length == 0) {
+                            this.$message({
+                                message: "没有符合条件的数据",
+                                duration: 1600,
+                                type: "error",
+                            });
+                        }
+                        this.table_data = records;
+                        this.total = res.data.data.total;
+                        data_param.goodsStatus = "";
+                    } else if (res.data.code == 400) {
+                        this.$message({
+                            message: res.data.data.msg,
+                            type: "warning",
+                            duration: 1600,
+                        });
+                    } else {
+                        this.$message({
+                            message: "请求失败了,请检查网络或者服务器",
+                            duration: 1600,
+                            type: "error",
+                        });
+                    }
+                });
+            } else {
+                this.$message({
+                    message: "亲,你还没有输入任何搜索条件",
+                    duration: 1600,
+                    type: "warning",
+                });
+            }
+        },
         refreshTable() {
             this.reload();
         },
@@ -168,5 +336,15 @@ export default {
     width: calc(100% - 160px);
     float: right;
     overflow-y: auto;
+}
+.el-input.is-disabled /deep/ .el-input__inner {
+    color: #1e2227;
+}
+.emo-form-inline {
+    display: flex;
+    justify-content: space-evenly;
+}
+.pull-right {
+    float: right;
 }
 </style>

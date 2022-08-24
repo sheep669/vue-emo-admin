@@ -6,7 +6,7 @@
 <template>
     <div id="chatroom">
         <el-card shadow="always" body-style="0px" style="margin: 8px">
-            chatroom page
+            chatroom page 计划开发中
         </el-card>
     </div>
 </template>
