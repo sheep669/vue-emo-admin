@@ -224,7 +224,7 @@ export default {
                     },
                     {
                         label: "操作",
-                        width: 200,
+                        width: 210,
                         type: "slot",
                         align: "center",
                         slotName: "operation",

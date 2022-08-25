@@ -159,58 +159,34 @@
                         ></el-input>
                     </el-form-item>
                     <el-form-item
-                        label="商品价格 :"
+                        label="评论内容 :"
+                        :label-width="formLabelWidth"
+                    >
+                        <el-input
+                            type="textarea"
+                            :rows="4"
+                            placeholder="请输入评论内容"
+                            v-model="dialogConfig.commentContent"
+                        >
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="更换图片 :"
                         :label-width="formLabelWidth"
                     >
                         <el-input
                             clearable
-                            v-model="dialogConfig.goodsPrice"
-                            placeholder="请输入商品价格(.00可省略) 保留两位小数 示例数据: 12 等同于 12.00"
+                            v-model="dialogConfig.commentImage"
+                            placeholder="请输入图片地址"
                         ></el-input>
                     </el-form-item>
                     <el-form-item
-                        label="总库存 :"
-                        :label-width="formLabelWidth"
-                    >
-                        <el-input
-                            clearable
-                            v-model="dialogConfig.totalStocks"
-                            placeholder="请输入总库存"
-                        ></el-input>
-                    </el-form-item>
-                    <el-form-item
-                        label="显示销量 :"
-                        :label-width="formLabelWidth"
-                    >
-                        <el-input
-                            clearable
-                            v-model="dialogConfig.showSales"
-                            placeholder="请输入显示销量"
-                        ></el-input>
-                    </el-form-item>
-                    <el-form-item
-                        label="真实销量 :"
-                        :label-width="formLabelWidth"
-                    >
-                        <el-input
-                            clearable
-                            v-model="dialogConfig.realSales"
-                            placeholder="请输入真实销量"
-                        ></el-input>
-                    </el-form-item>
-                    <el-form-item label="序号 :" :label-width="formLabelWidth">
-                        <el-input
-                            v-model="dialogConfig.serialNumber"
-                            placeholder="请输入序号"
-                        ></el-input>
-                    </el-form-item>
-                    <el-form-item
-                        label="商品状态 :"
+                        label="审核状态 :"
                         :label-width="formLabelWidth"
                     >
                         <el-select v-model="value" placeholder="请选择">
                             <el-option
-                                v-for="item in goods_status"
+                                v-for="item in audit_status"
                                 :key="item.value"
                                 :label="item.label"
                                 :value="item.value"
@@ -243,8 +219,8 @@
 import constant from "@/constant/api/index";
 import {
     searchOrGetRequest,
-    // doPostRequest,
-    // doDeleteRequest,
+    doPostRequest,
+    doDeleteRequest,
 } from "@/api/index";
 import EmoTable from "@/components/table/index";
 import { mapState, mapGetters, mapMutations } from "vuex";
@@ -277,8 +253,6 @@ export default {
                 form: {
                     //筛选项
                     goodsName: "",
-                    goodsSpecification: "",
-                    realSales: "",
                 },
             },
             table_config: {
@@ -341,6 +315,168 @@ export default {
     },
     methods: {
         ...mapMutations(["clearIds"]),
+        reset() {
+            let obj = this.dialogConfig;
+            Object.keys(obj).forEach((key) => {
+                obj[key] = "";
+            });
+            //恢复复选框默认项
+            this.value = 1;
+        },
+        closeDialog() {
+            this.dialogFormVisible = false;
+            if (this.eidtModel) {
+                this.refreshTable();
+            }
+        },
+        doAddOrEdit() {
+            //编辑模式
+            if (this.eidtModel) {
+                let url_param = constant.gco.updateUrl;
+                let data_param = this.dialogConfig;
+                console.log(data_param);
+                data_param.auditStatus = this.value;
+                doPostRequest(url_param, data_param).then((res) => {
+                    console.log(res);
+                    if (res.data.code == 200) {
+                        this.$message({
+                            message: "修改成功",
+                            type: "success",
+                            duration: 1600,
+                        });
+                        this.dialogFormVisible = false;
+                    }
+                    if (res.data.code == 400) {
+                        this.$message({
+                            message: res.data.data.msg,
+                            type: "warning",
+                            duration: 1600,
+                        });
+                    }
+                });
+            } else {
+                //添加模式
+                let url_param = constant.gco.addUrl;
+                let data_param = this.dialogConfig;
+                console.log(data_param.id);
+                data_param.auditStatus = this.value;
+                doPostRequest(url_param, data_param).then((res) => {
+                    if (res.data.code == 200) {
+                        this.$message({
+                            message: "添加成功",
+                            type: "success",
+                            duration: 1600,
+                        });
+                        this.dialogFormVisible = false;
+                        this.refreshTable();
+                    }
+                    if (res.data.code == 400) {
+                        this.$message({
+                            message: res.data.data.msg,
+                            type: "warning",
+                            duration: 1600,
+                        });
+                    }
+                });
+            }
+        },
+        handleAdd() {
+            this.eidtModel = false;
+            this.reset();
+            this.dialogFormVisible = true;
+            this.dialogTitle = "添加产品(商品)评论";
+        },
+        handleEdit(id, data) {
+            console.log(id, data);
+            this.eidtModel = true;
+            this.dialogConfig = data;
+            this.value = parseInt(data.auditStatus);
+            this.dialogFormVisible = true;
+            this.dialogTitle = "编辑产品(商品)评论信息";
+        },
+        handleDelete(id) {
+            console.log(id);
+            doDeleteRequest(constant.gco.deleteUrl, id).then((res) => {
+                console.log(res);
+                if (res.data.code === 200) {
+                    this.$message({
+                        message: "删除成功",
+                        type: "success",
+                    });
+                    this.refreshTable();
+                }
+            });
+        },
+        delBatch() {
+            if (this.delIds.length == 0) {
+                this.$message({
+                    message: "请至少选择一条数据",
+                    type: "warning",
+                });
+            } else {
+                doPostRequest(constant.gco.deleteBatchUrl, this.delIds).then(
+                    (res) => {
+                        console.log(res);
+                        if (res.data.code === 200) {
+                            this.$message({
+                                message: "批量删除成功",
+                                type: "success",
+                            });
+                        }
+                    }
+                );
+                this.refreshTable();
+                this.clearIds();
+            }
+        },
+        serachData() {
+            let isInput = false;
+            let page_parm = { current: 1, size: this.page.size };
+            let data_param = this.request_config.form;
+            Object.keys(data_param).forEach((v) => {
+                if (!data_param[v] == null || !data_param[v] == "") {
+                    isInput = true;
+                }
+            });
+            if (isInput) {
+                searchOrGetRequest(
+                    constant.gco.searchOrGetPageList,
+                    page_parm,
+                    data_param
+                ).then((res) => {
+                    if (res.data.code == 200) {
+                        let records = res.data.data.records;
+                        if (records.length == 0) {
+                            this.$message({
+                                message: "没有符合条件的数据",
+                                duration: 1600,
+                                type: "error",
+                            });
+                        }
+                        this.table_data = records;
+                        this.total = res.data.data.total;
+                    } else if (res.data.code == 400) {
+                        this.$message({
+                            message: res.data.data.msg,
+                            type: "warning",
+                            duration: 1600,
+                        });
+                    } else {
+                        this.$message({
+                            message: "请求失败了,请检查网络或者服务器",
+                            duration: 1600,
+                            type: "error",
+                        });
+                    }
+                });
+            } else {
+                this.$message({
+                    message: "亲,你还没有输入任何搜索条件",
+                    duration: 1600,
+                    type: "warning",
+                });
+            }
+        },
         resetSearch() {
             let obj = this.request_config.form;
             Object.keys(obj).forEach((key) => {
