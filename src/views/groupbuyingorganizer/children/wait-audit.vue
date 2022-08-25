@@ -73,15 +73,14 @@ export default {
     },
     methods: {
         ...mapMutations(["clearIds"]),
+        //刷新表
         refreshTable() {
-            this.reload();
-        },
-        reload() {
-            //刷新表
+            //刷新dom
             this.isShow = false;
             this.$nextTick(() => {
                 this.isShow = true;
             });
+            //重新获取数据加载
             this.getTableData();
         },
         handleConfirmAudit(id) {

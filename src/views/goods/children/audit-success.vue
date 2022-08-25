@@ -1,10 +1,10 @@
 <!--
  * @Author: sheep669
- * @Description: 审核失败tab
- * @Date: 2022-08-15 21:04:04
+ * @Description: 审核成功tab
+ * @Date: 2022-08-15 21:03:11
 -->
 <template>
-    <div id="auditError">
+    <div id="auditSuccess">
         <emo-table
             :config="table_config"
             :tableData="table_data"
@@ -58,7 +58,7 @@ import {
 } from "@/api/index";
 import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
-    name: "AuditError",
+    name: "AuditSuccess",
     components: {
         EmoTable,
     },
@@ -82,7 +82,7 @@ export default {
             this.getTableData();
         },
         reAudit(id) {
-            doAuditRequest(constant.gbom.reAuditUrl, id).then((res) => {
+            doAuditRequest(constant.gco.reAuditUrl, id).then((res) => {
                 if (res.data.code == 200) {
                     this.$message({
                         message: "操作成功",
@@ -101,7 +101,7 @@ export default {
         },
         handleDelete(id) {
             console.log(id);
-            doDeleteRequest(constant.gbom.deleteUrl, id).then((res) => {
+            doDeleteRequest(constant.gco.deleteUrl, id).then((res) => {
                 console.log(res);
                 if (res.data.code === 200) {
                     this.$message({
@@ -113,9 +113,9 @@ export default {
             });
         },
         getTableData() {
-            let data = { auditStatus: "4" };
+            let data = { auditStatus: "3" };
             searchOrGetRequest(
-                constant.gbom.searchOrGetPageList,
+                constant.gco.searchOrGetPageList,
                 this.page,
                 data
             ).then((res) => {
@@ -137,9 +137,9 @@ export default {
         },
         handleCurrentChange(val) {
             let page_parm = { current: val, size: this.page.size };
-            let data = { auditStatus: "4" };
+            let data = { auditStatus: "3" };
             searchOrGetRequest(
-                constant.gbom.searchOrGetPageList,
+                constant.gco.searchOrGetPageList,
                 page_parm,
                 data
             ).then((res) => {
@@ -169,19 +169,24 @@ export default {
             table_config: {
                 thead: [
                     {
-                        label: "会员ID",
+                        label: "商品评论ID",
                         prop: "id",
                         fixed: "left",
-                        width: 70,
-                    },
-                    {
-                        label: "推荐团长",
-                        prop: "recommendGroupBuyingOrganizer",
                         width: 100,
                     },
-                    { label: "联系方式", prop: "phoneNumber", width: 120 },
-                    { label: "店铺名称", prop: "storeName", width: 150 },
-                    { label: "提货地址", prop: "receiverAddress", width: 230 },
+                    {
+                        label: "买家信息",
+                        prop: "buyerInformation",
+                        width: 250,
+                    },
+                    { label: "商品名称", prop: "goodsName", width: 200 },
+                    {
+                        label: "商品规格",
+                        prop: "goodsSpecification",
+                        width: 200,
+                    },
+                    { label: "评论内容", prop: "commentContent", width: 200 },
+                    { label: "评论图片", prop: "commentImage", width: 200 },
                     {
                         label: "审核状态",
                         prop: "auditStatus",
@@ -196,10 +201,9 @@ export default {
                         },
                         width: 100,
                     },
-                    { label: "申请时间", prop: "applyTime", width: 160 },
                     {
                         label: "操作",
-                        width: 210,
+                        width: 200,
                         type: "slot",
                         align: "center",
                         slotName: "operation",

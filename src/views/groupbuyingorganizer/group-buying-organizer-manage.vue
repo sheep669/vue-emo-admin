@@ -354,7 +354,7 @@ export default {
             let page_parm = { current: 1, size: this.page.size };
             let data_param = this.request_config.form;
             Object.keys(data_param).forEach((v) => {
-                if (!data_param[v] == null || !data_param[v] == "") {
+                if (!data_param[v] == "" || !data_param[v] == "") {
                     isInput = true;
                 }
             });
@@ -402,6 +402,9 @@ export default {
             Object.keys(obj).forEach((key) => {
                 obj[key] = "";
             });
+            //恢复复选框默认项
+            this.value = 1;
+            //恢复switch默认状态
             obj.groupBuyingOrganizerStatus = "1";
         },
         closeDialog() {
@@ -410,16 +413,24 @@ export default {
                 this.refreshTable();
             }
         },
-        refreshTable() {
-            this.reload();
+        //重置查询框
+        resetSearch() {
+            let obj = this.request_config.form;
+            Object.keys(obj).forEach((key) => {
+                obj[key] = "";
+            });
         },
-        reload() {
-            //刷新表
+        //刷新表
+        refreshTable() {
+            //刷新dom
             this.isShow = false;
             this.$nextTick(() => {
                 this.isShow = true;
             });
+            //重新获取数据加载
             this.getTableData();
+            //清空过滤条件
+            this.resetSearch();
         },
         delBatch() {
             if (this.delIds.length == 0) {
@@ -446,7 +457,6 @@ export default {
         handleAdd() {
             this.eidtModel = false;
             this.reset();
-            this.value = 1;
             this.dialogFormVisible = true;
             this.dialogTitle = "添加团长信息";
         },
@@ -454,7 +464,7 @@ export default {
             searchOrGetRequest(
                 constant.gbom.searchOrGetPageList,
                 this.page,
-                null
+                ""
             ).then((res) => {
                 if (res.data.code == 200) {
                     this.table_data = res.data.data.records;
@@ -558,26 +568,20 @@ export default {
         return {
             value: 1,
             eidtModel: false,
-            auditStatus: [
-                { label: "待审核", value: 1 },
-                { label: "审核中", value: 2 },
-                { label: "通过", value: 3 },
-                { label: "不予通过", value: 4 },
-            ],
             dialogConfig: {
-                applyTime: null,
+                applyTime: "",
                 auditStatus: "3",
                 cashBalance: "",
                 commissionBalance: "",
-                earningsBalance: null,
+                earningsBalance: "",
                 groupBuyingOrganizerStatus: "1",
                 id: 0,
-                phoneNumber: null,
-                receiverAddress: null,
-                recommendGroupBuyingOrganizer: null,
-                referrer: null,
-                remark: null,
-                storeName: null,
+                phoneNumber: "",
+                receiverAddress: "",
+                recommendGroupBuyingOrganizer: "",
+                referrer: "",
+                remark: "",
+                storeName: "",
             },
             dialogTitle: "",
             dialogFormVisible: false,
@@ -589,9 +593,9 @@ export default {
             page: { current: 1, size: 8 },
             request_config: {
                 form: {
-                    recommendGroupBuyingOrganizer: null,
-                    receiverAddress: null,
-                    phoneNumber: null,
+                    recommendGroupBuyingOrganizer: "",
+                    receiverAddress: "",
+                    phoneNumber: "",
                 },
             },
             table_config: {
@@ -658,9 +662,6 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.el-input.is-disabled /deep/ .el-input__inner {
-    color: #1e2227;
-}
 .group_buying_organizer_manage {
     height: 100%;
     width: calc(100% - 160px);

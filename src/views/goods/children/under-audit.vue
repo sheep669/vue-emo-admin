@@ -1,10 +1,10 @@
 <!--
  * @Author: sheep669
- * @Description: 审核失败tab
- * @Date: 2022-08-15 21:04:04
+ * @Description: 审核中tab
+ * @Date: 2022-08-15 21:01:23
 -->
 <template>
-    <div id="auditError">
+    <div id="underAudit">
         <emo-table
             :config="table_config"
             :tableData="table_data"
@@ -12,8 +12,11 @@
         >
             <!-- 操作 -->
             <template v-slot:operation="slotData">
-                <el-button size="mini" @click="reAudit(slotData.data.id)"
-                    >重新审核</el-button
+                <el-button size="mini" @click="approveAudit(slotData.data.id)"
+                    >通过</el-button
+                >
+                <el-button size="mini" @click="rejectAudit(slotData.data.id)"
+                    >拒绝</el-button
                 >
                 <el-popconfirm
                     @confirm="handleDelete(slotData.data.id)"
@@ -58,7 +61,7 @@ import {
 } from "@/api/index";
 import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
-    name: "AuditError",
+    name: "UnderAudit",
     components: {
         EmoTable,
     },
@@ -81,8 +84,26 @@ export default {
             //重新获取数据加载
             this.getTableData();
         },
-        reAudit(id) {
-            doAuditRequest(constant.gbom.reAuditUrl, id).then((res) => {
+        approveAudit(id) {
+            doAuditRequest(constant.gco.approveAuditUrl, id).then((res) => {
+                if (res.data.code == 200) {
+                    this.$message({
+                        message: "操作成功",
+                        type: "success",
+                        duration: 1600,
+                    });
+                    this.refreshTable();
+                } else {
+                    this.$message({
+                        message: "操作失败",
+                        type: "error",
+                        duration: 1600,
+                    });
+                }
+            });
+        },
+        rejectAudit(id) {
+            doAuditRequest(constant.gco.rejectAuditUrl, id).then((res) => {
                 if (res.data.code == 200) {
                     this.$message({
                         message: "操作成功",
@@ -101,7 +122,7 @@ export default {
         },
         handleDelete(id) {
             console.log(id);
-            doDeleteRequest(constant.gbom.deleteUrl, id).then((res) => {
+            doDeleteRequest(constant.gco.deleteUrl, id).then((res) => {
                 console.log(res);
                 if (res.data.code === 200) {
                     this.$message({
@@ -113,9 +134,9 @@ export default {
             });
         },
         getTableData() {
-            let data = { auditStatus: "4" };
+            let data = { auditStatus: "2" };
             searchOrGetRequest(
-                constant.gbom.searchOrGetPageList,
+                constant.gco.searchOrGetPageList,
                 this.page,
                 data
             ).then((res) => {
@@ -137,9 +158,9 @@ export default {
         },
         handleCurrentChange(val) {
             let page_parm = { current: val, size: this.page.size };
-            let data = { auditStatus: "4" };
+            let data = { auditStatus: "2" };
             searchOrGetRequest(
-                constant.gbom.searchOrGetPageList,
+                constant.gco.searchOrGetPageList,
                 page_parm,
                 data
             ).then((res) => {
@@ -169,19 +190,24 @@ export default {
             table_config: {
                 thead: [
                     {
-                        label: "会员ID",
+                        label: "商品评论ID",
                         prop: "id",
                         fixed: "left",
-                        width: 70,
-                    },
-                    {
-                        label: "推荐团长",
-                        prop: "recommendGroupBuyingOrganizer",
                         width: 100,
                     },
-                    { label: "联系方式", prop: "phoneNumber", width: 120 },
-                    { label: "店铺名称", prop: "storeName", width: 150 },
-                    { label: "提货地址", prop: "receiverAddress", width: 230 },
+                    {
+                        label: "买家信息",
+                        prop: "buyerInformation",
+                        width: 250,
+                    },
+                    { label: "商品名称", prop: "goodsName", width: 200 },
+                    {
+                        label: "商品规格",
+                        prop: "goodsSpecification",
+                        width: 200,
+                    },
+                    { label: "评论内容", prop: "commentContent", width: 200 },
+                    { label: "评论图片", prop: "commentImage", width: 200 },
                     {
                         label: "审核状态",
                         prop: "auditStatus",
@@ -196,10 +222,9 @@ export default {
                         },
                         width: 100,
                     },
-                    { label: "申请时间", prop: "applyTime", width: 160 },
                     {
                         label: "操作",
-                        width: 210,
+                        width: 200,
                         type: "slot",
                         align: "center",
                         slotName: "operation",

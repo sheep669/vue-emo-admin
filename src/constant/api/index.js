@@ -57,6 +57,10 @@ const gco = {
     deleteUrl: '/goodsComment/delete',
     searchOrGetPageList: '/goodsComments/page/get',
     deleteBatchUrl: '/goodsComments/deleteBatch',
+    confirmAuditUrl: '/goodsComment/audit/confirm',
+    approveAuditUrl: '/goodsComment/audit/approve',
+    rejectAuditUrl: '/goodsComment/audit/reject',
+    reAuditUrl: '/goodsComment/audit/reAudit'
 }
 /**
  *   操作订单

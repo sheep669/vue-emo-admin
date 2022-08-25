@@ -7,11 +7,97 @@
     <!-- suggest to replace '_'===> '-' -->
     <div class="goods_comment">
         <el-card shadow="always" body-style="0px" style="margin: 8px">
+            <div class="filter-form">
+                <el-row>
+                    <el-col :span="1">
+                        <el-tooltip
+                            effect="dark"
+                            content="刷新表格"
+                            placement="left-start"
+                        >
+                            <el-button
+                                @click="refreshTable"
+                                icon="el-icon-refresh-right"
+                                circle
+                                size="medium"
+                            ></el-button>
+                        </el-tooltip>
+                    </el-col>
+                    <el-col :span="13">
+                        <el-form label-width="100px" class="emo-form-inline">
+                            <el-form-item label="商品名称">
+                                <el-input
+                                    style="width: 520px"
+                                    clearable
+                                    v-model="request_config.form.goodsName"
+                                    placeholder="请输入商品名称"
+                                ></el-input>
+                            </el-form-item>
+                        </el-form>
+                    </el-col>
+                    <el-col :span="4">
+                        <div class="serachBtn">
+                            <el-button
+                                type="primary"
+                                icon="el-icon-search"
+                                @click="serachData"
+                                >查询</el-button
+                            >
+                        </div>
+                    </el-col>
+                    <el-col :span="2">
+                        <div class="batchBtn">
+                            <el-button
+                                type="danger"
+                                icon="el-icon-delete"
+                                @click="delBatch"
+                                >批量删除</el-button
+                            >
+                        </div>
+                    </el-col>
+                    <el-col :span="4">
+                        <div class="pull-right">
+                            <el-button
+                                @click="handleAdd"
+                                type="danger"
+                                icon="el-icon-circle-plus-outline"
+                                >添加商品评论</el-button
+                            >
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
             <emo-table
                 :config="table_config"
                 :tableData="table_data"
                 :isShow="isShow"
-            ></emo-table>
+            >
+                <!-- 操作 -->
+                <template v-slot:operation="slotData">
+                    <el-button
+                        size="mini"
+                        @click="handleEdit(slotData.data.id, slotData.data)"
+                        >编辑</el-button
+                    >
+                    <el-popconfirm
+                        @confirm="handleDelete(slotData.data.id)"
+                        confirm-button-text="确认"
+                        cancel-button-text="取消"
+                        icon="el-icon-info"
+                        icon-color="red"
+                        title="确定删除吗?"
+                    >
+                        <el-button
+                            style="margin-left: 4px"
+                            slot="reference"
+                            size="mini"
+                            type="danger"
+                            >删除</el-button
+                        >
+                    </el-popconfirm>
+                </template>
+            </emo-table>
+
             <div style="margin-top: 10px">
                 <el-pagination
                     @size-change="handleSizeChange"
@@ -25,12 +111,141 @@
                 >
                 </el-pagination>
             </div>
+            <el-dialog
+                :title="dialogTitle"
+                :visible.sync="dialogFormVisible"
+                :fullscreen="true"
+                :close-on-click-modal="false"
+                @close="closeDialog"
+            >
+                <el-form>
+                    <el-form-item
+                        label="商品评论ID :"
+                        :label-width="formLabelWidth"
+                        v-if="eidtModel"
+                    >
+                        <span style="color: #f56c6c">{{
+                            dialogConfig.id
+                        }}</span>
+                    </el-form-item>
+                    <el-form-item
+                        label="买家信息 :"
+                        :label-width="formLabelWidth"
+                    >
+                        <el-input
+                            clearable
+                            v-model="dialogConfig.buyerInformation"
+                            placeholder="请输入买家信息"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="商品名称 :"
+                        :label-width="formLabelWidth"
+                    >
+                        <el-input
+                            clearable
+                            v-model="dialogConfig.goodsName"
+                            placeholder="请输入商品名称"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="商品规格 :"
+                        :label-width="formLabelWidth"
+                    >
+                        <el-input
+                            clearable
+                            v-model="dialogConfig.goodsSpecification"
+                            placeholder="请输入商品规格"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="商品价格 :"
+                        :label-width="formLabelWidth"
+                    >
+                        <el-input
+                            clearable
+                            v-model="dialogConfig.goodsPrice"
+                            placeholder="请输入商品价格(.00可省略) 保留两位小数 示例数据: 12 等同于 12.00"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="总库存 :"
+                        :label-width="formLabelWidth"
+                    >
+                        <el-input
+                            clearable
+                            v-model="dialogConfig.totalStocks"
+                            placeholder="请输入总库存"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="显示销量 :"
+                        :label-width="formLabelWidth"
+                    >
+                        <el-input
+                            clearable
+                            v-model="dialogConfig.showSales"
+                            placeholder="请输入显示销量"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="真实销量 :"
+                        :label-width="formLabelWidth"
+                    >
+                        <el-input
+                            clearable
+                            v-model="dialogConfig.realSales"
+                            placeholder="请输入真实销量"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item label="序号 :" :label-width="formLabelWidth">
+                        <el-input
+                            v-model="dialogConfig.serialNumber"
+                            placeholder="请输入序号"
+                        ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="商品状态 :"
+                        :label-width="formLabelWidth"
+                    >
+                        <el-select v-model="value" placeholder="请选择">
+                            <el-option
+                                v-for="item in goods_status"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value"
+                            >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item style="text-align: center">
+                        <el-button type="primary" @click="doAddOrEdit"
+                            >确认{{ dialogTitle }}</el-button
+                        >
+                        <el-button
+                            v-if="!eidtModel"
+                            type="primary"
+                            @click="reset"
+                            >重置</el-button
+                        >
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="danger" size="small" @click="closeDialog()"
+                        >关闭弹窗</el-button
+                    >
+                </div>
+            </el-dialog>
         </el-card>
     </div>
 </template>
 <script>
 import constant from "@/constant/api/index";
-import { searchOrGetRequest } from "@/api/index";
+import {
+    searchOrGetRequest,
+    // doPostRequest,
+    // doDeleteRequest,
+} from "@/api/index";
 import EmoTable from "@/components/table/index";
 import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
@@ -44,11 +259,26 @@ export default {
             page: { current: 1, size: 8 },
             table_data: [],
             isShow: true,
+            value: 1,
+            eidtModel: false,
+            dialogConfig: {
+                auditStatus: "",
+                buyerInformation: "",
+                commentContent: "",
+                commentImage: "",
+                goodsName: "",
+                goodsSpecification: "",
+                id: 0,
+            },
+            dialogTitle: "",
+            dialogFormVisible: false,
+            formLabelWidth: "120px",
             request_config: {
                 form: {
-                    goodsName: null,
-                    totalStocks: null,
-                    serialNumber: null,
+                    //筛选项
+                    goodsName: "",
+                    goodsSpecification: "",
+                    realSales: "",
                 },
             },
             table_config: {
@@ -106,18 +336,28 @@ export default {
     created() {
         this.getTableData();
     },
+    beforeDestroy() {
+        this.clearIds();
+    },
     methods: {
         ...mapMutations(["clearIds"]),
-        refreshTable() {
-            this.reload();
+        resetSearch() {
+            let obj = this.request_config.form;
+            Object.keys(obj).forEach((key) => {
+                obj[key] = "";
+            });
         },
-        reload() {
-            //刷新表
+        //刷新表
+        refreshTable() {
+            //刷新dom
             this.isShow = false;
             this.$nextTick(() => {
                 this.isShow = true;
             });
+            //重新获取数据加载
             this.getTableData();
+            //清空过滤条件
+            this.resetSearch();
         },
         getTableData() {
             searchOrGetRequest(
@@ -171,5 +411,14 @@ export default {
     width: calc(100% - 160px);
     float: right;
     overflow-y: auto;
+}
+.emo-form-inline {
+    display: flex;
+}
+.pull-right {
+    float: right;
+}
+/deep/.el-dialog {
+    text-align: left !important;
 }
 </style>

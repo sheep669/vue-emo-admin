@@ -113,7 +113,11 @@
 </template>
 <script>
 import constant from "@/constant/api/index";
-import { searchOrGetRequest, doPostRequest } from "@/api/index";
+import {
+    searchOrGetRequest,
+    doPostRequest,
+    doDeleteRequest,
+} from "@/api/index";
 import EmoTable from "@/components/table/index";
 import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
@@ -175,14 +179,14 @@ export default {
                         width: 100,
                     },
                     { label: "产生时间", prop: "makeTime", width: 160 },
-                    // {
-                    //     label: "操作",
-                    //     width: 150,
-                    //     type: "slot",
-                    //     align: "center",
-                    //     slotName: "operation",
-                    //     fixed: "right",
-                    // },
+                    {
+                        label: "操作",
+                        width: 100,
+                        type: "slot",
+                        align: "center",
+                        slotName: "operation",
+                        fixed: "right",
+                    },
                 ],
                 checkbox: true,
             },
@@ -200,6 +204,19 @@ export default {
     },
     methods: {
         ...mapMutations(["clearIds"]),
+        handleDelete(id) {
+            console.log(id);
+            doDeleteRequest(constant.goods.deleteUrl, id).then((res) => {
+                console.log(res);
+                if (res.data.code === 200) {
+                    this.$message({
+                        message: "删除成功",
+                        type: "success",
+                    });
+                    this.refreshTable();
+                }
+            });
+        },
         delBatch() {
             if (this.delIds.length == 0) {
                 this.$message({
@@ -273,16 +290,23 @@ export default {
                 });
             }
         },
-        refreshTable() {
-            this.reload();
+        resetSearch() {
+            let obj = this.request_config.form;
+            Object.keys(obj).forEach((key) => {
+                obj[key] = "";
+            });
         },
-        reload() {
-            //刷新表
+        //刷新表
+        refreshTable() {
+            //刷新dom
             this.isShow = false;
             this.$nextTick(() => {
                 this.isShow = true;
             });
+            //重新获取数据加载
             this.getTableData();
+            //清空过滤条件
+            this.resetSearch();
         },
         getTableData() {
             let data = { goodsStatus: "2" };
@@ -337,9 +361,6 @@ export default {
     width: calc(100% - 160px);
     float: right;
     overflow-y: auto;
-}
-.el-input.is-disabled /deep/ .el-input__inner {
-    color: #1e2227;
 }
 .emo-form-inline {
     display: flex;
