@@ -338,6 +338,7 @@ export default {
                             duration: 1600,
                         });
                         this.dialogFormVisible = false;
+                        this.refreshTable();
                     }
                     if (res.data.code == 400) {
                         this.$message({

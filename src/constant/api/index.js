@@ -101,6 +101,7 @@ const gboc = {
     deleteUrl: '/groupBuyingOrganizerClear/delete',
     searchOrGetPageList: '/groupBuyingOrganizerClears/page/get',
     deleteBatchUrl: '/groupBuyingOrganizerClears/deleteBatch',
+    payCalcutionUrl: '/groupBuyingOrganizer/doPayCalculation',
 }
 /**
  *   操作团长提现信息
@@ -125,6 +126,8 @@ const member = {
     deleteUrl: '/member/delete',
     searchOrGetPageList: '/members/page/get',
     deleteBatchUrl: '/members/deleteBatch',
+    addBlacklistUrl: '/member/addBlacklist',
+    removeBlacklistUrl: '/member/removeBlacklist',
 }
 /**
  *   操作会员标签
