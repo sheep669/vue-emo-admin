@@ -355,7 +355,7 @@ export default {
             let page_parm = { current: 1, size: this.page.size };
             let data_param = this.request_config.form;
             Object.keys(data_param).forEach((v) => {
-                if (!data_param[v] == "" || !data_param[v] == "") {
+                if (!data_param[v] == "" || !data_param[v] == null) {
                     isInput = true;
                 }
             });
