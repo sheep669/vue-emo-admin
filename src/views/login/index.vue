@@ -116,6 +116,7 @@ export default {
                             duration: 1500,
                         });
                     }
+                    //验证码错误
                 } else if (res.data.code === 1007) {
                     this.$message({
                         message: res.data.msg,
@@ -123,6 +124,16 @@ export default {
                         duration: 1500,
                     });
                     this.refreshCaptcha();
+                    //账号或密码错误
+                } else if (res.data.code === 2003) {
+                    this.$message({
+                        message: res.data.msg,
+                        type: "error",
+                        duration: 1500,
+                    });
+                    this.refreshCaptcha();
+                    this.reset();
+                    //其它错误 为空校验等等
                 } else {
                     this.$message({
                         message: res.data.msg,
