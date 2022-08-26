@@ -11,7 +11,7 @@
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "echarts": "^5.3.3",
-    "element-ui": "^2.4.5",
+    "element-ui": "^2.15.8",
     "fs-extra": "^10.1.0",
     "jwt-decode": "^3.1.2",
     "uppercamelcase": "^3.0.0",
