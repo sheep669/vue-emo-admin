@@ -39,6 +39,12 @@ const state = {
         { label: "成功", value: 1 },
         { label: "失败", value: 2 },
     ],
+    delivery_status: [
+        { label: "配送中", value: 1 },
+        { label: "配送到达", value: 2 },
+        { label: "已签收", value: 3 },
+        { label: "配送关闭", value: 0 },
+    ]
 }
 
 export default {

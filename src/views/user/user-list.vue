@@ -169,11 +169,14 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="有效期 :" :label-width="formLabelWidth">
-                    <el-input
-                        clearable
+                    <el-date-picker
                         v-model="dialogConfig.validTime"
-                        placeholder="请输入有效期"
-                    ></el-input>
+                        type="datetime"
+                        placeholder="选择日期时间"
+                        format="yyyy-MM-dd HH:mm:ss"
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                    >
+                    </el-date-picker>
                 </el-form-item>
                 <el-form-item style="text-align: center">
                     <el-button type="primary" @click="doAddOrEdit"
@@ -277,6 +280,14 @@ export default {
                         label: "有效期",
                         prop: "validTime",
                         width: 200,
+                        type: "function",
+                        callback: (row, prop) => {
+                            if (row[prop] === "9999-09-09 09:09:09") {
+                                return "永久会员";
+                            } else {
+                                return row[prop];
+                            }
+                        },
                     },
                     {
                         label: "操作",
