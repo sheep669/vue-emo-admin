@@ -316,8 +316,6 @@ export default {
             console.log(id, data);
             this.eidtModel = true;
             this.dialogConfig = data;
-            this.value1 = parseInt(data.memberStatus);
-            this.value2 = parseInt(data.memberType);
             this.dialogFormVisible = true;
             this.dialogTitle = "编辑会员标签";
         },

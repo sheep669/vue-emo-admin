@@ -6,7 +6,78 @@
 <template>
     <!-- suggest to replace '_'===> '-' -->
     <div class="sys_user_view">
-        <el-card shadow="always" body-style="0px" style="margin: 8px">
+        <el-card
+            shadow="always"
+            body-style="0px"
+            style="margin: 8px"
+            class="main"
+        >
+            <div class="filter-form">
+                <el-row>
+                    <el-col :span="1">
+                        <el-tooltip
+                            effect="dark"
+                            content="刷新表格"
+                            placement="left-start"
+                        >
+                            <el-button
+                                @click="refreshTable"
+                                icon="el-icon-refresh-right"
+                                circle
+                                size="medium"
+                            ></el-button>
+                        </el-tooltip>
+                    </el-col>
+                    <el-col :span="13">
+                        <el-form label-width="100px" class="emo-form-inline">
+                            <el-form-item label="用户名">
+                                <el-input
+                                    clearable
+                                    v-model="request_config.form.username"
+                                    placeholder="请输入用户名"
+                                ></el-input>
+                            </el-form-item>
+                            <el-form-item label="手机号码">
+                                <el-input
+                                    clearable
+                                    v-model="request_config.form.phoneNumber"
+                                    placeholder="请输入手机号码"
+                                ></el-input>
+                            </el-form-item>
+                        </el-form>
+                    </el-col>
+                    <el-col :span="4">
+                        <div class="serachBtn">
+                            <el-button
+                                type="primary"
+                                icon="el-icon-search"
+                                @click="serachData"
+                                >查询</el-button
+                            >
+                        </div>
+                    </el-col>
+                    <el-col :span="2">
+                        <div class="batchBtn">
+                            <el-button
+                                type="danger"
+                                icon="el-icon-delete"
+                                @click="delBatch"
+                                >批量删除</el-button
+                            >
+                        </div>
+                    </el-col>
+                    <el-col :span="4">
+                        <div class="pull-right">
+                            <el-button
+                                @click="handleAdd"
+                                type="danger"
+                                icon="el-icon-circle-plus-outline"
+                                >添加配送路线</el-button
+                            >
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
             <emo-table
                 :config="table_config"
                 :tableData="table_data"
@@ -27,7 +98,32 @@
                     >
                     </el-switch>
                 </template>
+                <!-- 操作 -->
+                <template v-slot:operation="slotData">
+                    <el-button
+                        size="mini"
+                        @click="handleEdit(slotData.data.id, slotData.data)"
+                        >编辑</el-button
+                    >
+                    <el-popconfirm
+                        @confirm="handleDelete(slotData.data.id)"
+                        confirm-button-text="确认"
+                        cancel-button-text="取消"
+                        icon="el-icon-info"
+                        icon-color="red"
+                        title="确定删除吗?"
+                    >
+                        <el-button
+                            style="margin-left: 4px"
+                            slot="reference"
+                            size="mini"
+                            type="danger"
+                            >删除</el-button
+                        >
+                    </el-popconfirm>
+                </template>
             </emo-table>
+
             <div style="margin-top: 10px">
                 <el-pagination
                     @size-change="handleSizeChange"
@@ -42,11 +138,133 @@
                 </el-pagination>
             </div>
         </el-card>
+        <el-dialog
+            :title="dialogTitle"
+            :visible.sync="dialogFormVisible"
+            :fullscreen="true"
+            :close-on-click-modal="false"
+            @close="closeDialog"
+        >
+            <el-form>
+                <el-form-item
+                    label="系统用户ID :"
+                    :label-width="formLabelWidth"
+                    v-if="eidtModel"
+                >
+                    <span style="color: #f56c6c">{{ dialogConfig.id }}</span>
+                </el-form-item>
+                <el-form-item label="用户名 :" :label-width="formLabelWidth">
+                    <el-input
+                        clearable
+                        v-model="dialogConfig.username"
+                        placeholder="请输入用户名"
+                    ></el-input>
+                </el-form-item>
+                <span style="color: red; margin-left: 72px"
+                    >* 输入明文即可 后台自动加密</span
+                >
+                <el-form-item
+                    label="密码 :"
+                    :label-width="formLabelWidth"
+                    style="margin-top: 5px"
+                >
+                    <el-input
+                        show-password
+                        clearable
+                        v-model="dialogConfig.password"
+                        placeholder="请输入密码"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="角色 :" :label-width="formLabelWidth">
+                    <el-input
+                        clearable
+                        v-model="dialogConfig.role"
+                        placeholder="请输入角色"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item
+                    label="系统用户状态 :"
+                    :label-width="formLabelWidth"
+                >
+                    <el-switch
+                        v-model="dialogConfig.status"
+                        active-value="1"
+                        inactive-value="0"
+                        active-color="#13ce66"
+                        inactive-color="#ff4949"
+                    >
+                    </el-switch>
+                </el-form-item>
+                <el-form-item label="用户类型 :" :label-width="formLabelWidth">
+                    <el-select v-model="value" placeholder="请选择">
+                        <el-option
+                            v-for="item in user_type"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="头像 :" :label-width="formLabelWidth">
+                    <el-input
+                        clearable
+                        v-model="dialogConfig.avatar"
+                        placeholder="请输入头像地址"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="手机号码 :" :label-width="formLabelWidth">
+                    <el-input
+                        clearable
+                        v-model="dialogConfig.phoneNumber"
+                        placeholder="请输入手机号码"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="账户余额 :" :label-width="formLabelWidth">
+                    <el-input
+                        clearable
+                        v-model="dialogConfig.accountBalance"
+                        placeholder="请输入账户余额(.00可省略) 保留两位小数 示例数据: 12 等同于 12.00"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="居住地 :" :label-width="formLabelWidth">
+                    <el-input
+                        clearable
+                        v-model="dialogConfig.location"
+                        placeholder="请输入居住地"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="联系地址 :" :label-width="formLabelWidth">
+                    <el-input
+                        clearable
+                        v-model="dialogConfig.address"
+                        placeholder="请输入联系地址"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item style="text-align: center">
+                    <el-button type="primary" @click="doAddOrEdit"
+                        >确认{{ dialogTitle }}</el-button
+                    >
+                    <el-button v-if="!eidtModel" type="primary" @click="reset"
+                        >重置</el-button
+                    >
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="danger" size="small" @click="closeDialog()"
+                    >关闭弹窗</el-button
+                >
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
 import constant from "@/constant/api/index";
-import { searchOrGetRequest, doPostRequest } from "@/api/index";
+import {
+    searchOrGetRequest,
+    doPostRequest,
+    doDeleteRequest,
+} from "@/api/index";
 import EmoTable from "@/components/table/index";
 import { mapGetters, mapMutations, mapState } from "vuex";
 export default {
@@ -56,16 +274,33 @@ export default {
     },
     data() {
         return {
-            total: 16,
-            page: { current: 1, size: 8 },
-            switch_disabled: "",
+            value: 5,
+            dialogConfig: {
+                accountBalance: 0,
+                address: "",
+                avatar: "",
+                id: 0,
+                location: "",
+                password: "",
+                phoneNumber: "",
+                role: "",
+                status: "",
+                userType: "",
+                username: "",
+            },
+            dialogTitle: "",
+            dialogFormVisible: false,
+            formLabelWidth: "120px",
+            eidtModel: false,
             table_data: [],
             isShow: true,
+            switch_disabled: "",
+            total: 16,
+            page: { current: 1, size: 8 },
             request_config: {
                 form: {
-                    goodsName: null,
-                    totalStocks: null,
-                    serialNumber: null,
+                    username: "",
+                    phoneNumber: "",
                 },
             },
             table_config: {
@@ -84,6 +319,14 @@ export default {
                     },
                     { label: "密码", prop: "password", width: 200 },
                     { label: "角色", prop: "role", width: 200 },
+                    {
+                        label: "状态(禁/启用)",
+                        prop: "status",
+                        width: 120,
+                        type: "slot",
+                        align: "center",
+                        slotName: "status",
+                    },
                     {
                         label: "用户类型",
                         prop: "userType",
@@ -105,15 +348,6 @@ export default {
                     { label: "联系地址", prop: "address", width: 200 },
                     { label: "注册时间", prop: "registerTime", width: 180 },
                     {
-                        label: "状态(禁/启用)",
-                        prop: "status",
-                        width: 120,
-                        type: "slot",
-                        align: "center",
-                        slotName: "status",
-                        fixed: "right",
-                    },
-                    {
                         label: "操作",
                         width: 200,
                         type: "slot",
@@ -133,18 +367,193 @@ export default {
     created() {
         this.getTableData();
     },
+    beforeDestroy() {
+        this.clearIds();
+    },
     methods: {
         ...mapMutations(["clearIds"]),
-        refreshTable() {
-            this.reload();
+        doAddOrEdit() {
+            //编辑模式
+            if (this.eidtModel) {
+                let url_param = constant.user.updateUrl;
+                let data_param = this.dialogConfig;
+                console.log(data_param.id);
+                data_param.userType = this.value;
+                doPostRequest(url_param, data_param).then((res) => {
+                    console.log(res);
+                    if (res.data.code == 200) {
+                        this.$message({
+                            message: "修改成功",
+                            type: "success",
+                            duration: 1600,
+                        });
+                        this.dialogFormVisible = false;
+                    }
+                    if (res.data.code == 400) {
+                        this.$message({
+                            message: res.data.data.msg,
+                            type: "warning",
+                            duration: 1600,
+                        });
+                    }
+                });
+            } else {
+                //添加模式
+                let url_param = constant.user.addUrl;
+                let data_param = this.dialogConfig;
+                console.log(data_param.id);
+                data_param.userType = this.value;
+                doPostRequest(url_param, data_param).then((res) => {
+                    if (res.data.code == 200) {
+                        this.$message({
+                            message: "添加成功",
+                            type: "success",
+                            duration: 1600,
+                        });
+                        this.dialogFormVisible = false;
+                        this.refreshTable();
+                    }
+                    if (res.data.code == 400) {
+                        this.$message({
+                            message: res.data.data.msg,
+                            type: "warning",
+                            duration: 1600,
+                        });
+                    }
+                });
+            }
         },
-        reload() {
-            //刷新表
+        serachData() {
+            let isInput = false;
+            let page_parm = { current: 1, size: this.page.size };
+            let data_param = this.request_config.form;
+            Object.keys(data_param).forEach((v) => {
+                if (!data_param[v] == "" || !data_param[v] == null) {
+                    isInput = true;
+                }
+            });
+            if (isInput) {
+                searchOrGetRequest(
+                    constant.user.searchOrGetPageList,
+                    page_parm,
+                    data_param
+                ).then((res) => {
+                    if (res.data.code == 200) {
+                        let records = res.data.data.records;
+                        if (records.length == 0) {
+                            this.$message({
+                                message: "没有符合条件的数据",
+                                duration: 1600,
+                                type: "error",
+                            });
+                        }
+                        this.table_data = records;
+                        this.total = res.data.data.total;
+                    } else if (res.data.code == 400) {
+                        this.$message({
+                            message: res.data.data.msg,
+                            type: "warning",
+                            duration: 1600,
+                        });
+                    } else {
+                        this.$message({
+                            message: "请求失败了,请检查网络或者服务器",
+                            duration: 1600,
+                            type: "error",
+                        });
+                    }
+                });
+            } else {
+                this.$message({
+                    message: "亲,你还没有输入任何搜索条件",
+                    duration: 1600,
+                    type: "warning",
+                });
+            }
+        },
+        reset() {
+            let obj = this.dialogConfig;
+            Object.keys(obj).forEach((key) => {
+                obj[key] = "";
+            });
+            //恢复复选框默认项
+            this.value = 5;
+            //恢复switch默认状态
+            obj.status = "1";
+        },
+        closeDialog() {
+            this.dialogFormVisible = false;
+            if (this.eidtModel) {
+                this.refreshTable();
+            }
+        },
+        //重置查询框
+        resetSearch() {
+            let obj = this.request_config.form;
+            Object.keys(obj).forEach((key) => {
+                obj[key] = "";
+            });
+        },
+        //刷新表
+        refreshTable() {
+            //刷新dom
             this.isShow = false;
             this.$nextTick(() => {
                 this.isShow = true;
             });
+            //重新获取数据加载
             this.getTableData();
+            //清空过滤条件
+            this.resetSearch();
+        },
+        delBatch() {
+            if (this.delIds.length == 0) {
+                this.$message({
+                    message: "请至少选择一条数据",
+                    type: "warning",
+                });
+            } else {
+                doPostRequest(constant.user.deleteBatchUrl, this.delIds).then(
+                    (res) => {
+                        console.log(res);
+                        if (res.data.code === 200) {
+                            this.$message({
+                                message: "批量删除成功",
+                                type: "success",
+                            });
+                        }
+                    }
+                );
+                this.refreshTable();
+                this.clearIds();
+            }
+        },
+        handleAdd() {
+            this.eidtModel = false;
+            this.reset();
+            this.dialogFormVisible = true;
+            this.dialogTitle = "添加系统用户";
+        },
+        handleEdit(id, data) {
+            console.log(id, data);
+            this.eidtModel = true;
+            this.dialogConfig = data;
+            this.value = parseInt(data.userType);
+            this.dialogFormVisible = true;
+            this.dialogTitle = "编辑系统用户信息";
+        },
+        handleDelete(id) {
+            console.log(id);
+            doDeleteRequest(constant.user.deleteUrl, id).then((res) => {
+                console.log(res);
+                if (res.data.code === 200) {
+                    this.$message({
+                        message: "删除成功",
+                        type: "success",
+                    });
+                    this.refreshTable();
+                }
+            });
         },
         getTableData() {
             searchOrGetRequest(
@@ -237,5 +646,14 @@ export default {
     width: calc(100% - 160px);
     float: right;
     overflow-y: auto;
+}
+.emo-form-inline {
+    display: flex;
+}
+.pull-right {
+    float: right;
+}
+/deep/.el-dialog {
+    text-align: left !important;
 }
 </style>

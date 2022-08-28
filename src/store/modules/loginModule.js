@@ -18,6 +18,11 @@ export default {
         setUser(state, data) {
             state.userinfo = data;
         },
+        //设置用户信息
+        clearUser(state) {
+            state.userinfo.user = {};
+            state.userinfo.token = '';
+        },
     },
     actions: {
     },

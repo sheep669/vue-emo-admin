@@ -114,7 +114,7 @@
     </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import { doLogout } from "@/api/index";
 export default {
     name: "EmoHeader",
@@ -130,6 +130,7 @@ export default {
         },
     },
     methods: {
+        ...mapMutations("loginModule", ["clearUser"]),
         openDialog() {
             this.dialogFormVisible = true;
         },
@@ -139,6 +140,7 @@ export default {
                 if (res.data.code === 200) {
                     localStorage.clear();
                     sessionStorage.clear();
+                    this.clearUser();
                     this.$message({
                         message: res.data.msg,
                         type: "success",
