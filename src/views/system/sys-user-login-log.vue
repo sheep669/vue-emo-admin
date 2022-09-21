@@ -67,7 +67,7 @@
                                 @click="handleAdd"
                                 type="danger"
                                 icon="el-icon-circle-plus-outline"
-                                >添加登入日志</el-button
+                                >添加登陆日志</el-button
                             >
                         </div>
                     </el-col>

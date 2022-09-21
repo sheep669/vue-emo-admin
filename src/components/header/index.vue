@@ -5,7 +5,7 @@
 -->
 <template>
     <div id="emo-header">
-        <div class="logo">线上社区团购系统</div>
+        <div class="logo">线上社区团购管理系统</div>
         <div class="tool">
             <div class="left">
                 <el-breadcrumb separator="/">
@@ -157,14 +157,14 @@ export default {
 </script>
 <style lang='less' scoped>
 .logo {
-    width: 175px;
+    width: 182px;
     background: #1e1e1e;
     color: white;
     height: 60px;
     float: left;
     text-align: left;
     line-height: 60px;
-    padding-left: 25px;
+    padding-left: 18px;
 }
 .tool {
     height: 60px;
