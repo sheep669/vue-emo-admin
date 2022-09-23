@@ -140,15 +140,13 @@ export default {
                 if (res.data.code === 200) {
                     localStorage.clear();
                     sessionStorage.clear();
+                    this.$store.commit("clearNav");
                     this.clearUser();
                     this.$message({
                         message: res.data.msg,
                         type: "success",
                     });
-                    setTimeout(() => {
-                        window.location.reload();
-                        this.$router.replace("/login");
-                    }, 250);
+                    this.$router.replace("/login");
                 }
             });
         },

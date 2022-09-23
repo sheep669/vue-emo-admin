@@ -25,6 +25,9 @@ export default new Vuex.Store({
     setNav(state, data) {
       state.nav = data
     },
+    clearNav(state) {
+      state.nav = []
+    },
     setIds(state, data) {
       state.ids = data
     },
