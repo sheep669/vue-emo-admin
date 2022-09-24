@@ -14,11 +14,12 @@
                 <div class="wrapper">
                     <div class="top">
                         <h4>待备货订单 (单)</h4>
-                        <h1 class="num">0</h1>
+                        <h1 class="num">{{ unPreparedOrderNum }}</h1>
                     </div>
                     <div class="bottom">
                         <div class="left">
-                            <span>今日订单:</span> <span class="num">0</span>
+                            <span>今日订单:</span>
+                            <span class="num">{{ todayOrderNum }}</span>
                         </div>
                         <div class="right">
                             <i class="el-icon-arrow-right"></i>
@@ -28,11 +29,12 @@
                 <div class="wrapper">
                     <div class="top">
                         <h4>库存预警 (项)</h4>
-                        <h1 class="num">0</h1>
+                        <h1 class="num">{{ inventoryWarningNum }}</h1>
                     </div>
                     <div class="bottom">
                         <div class="left">
-                            <span>现有商品数:</span> <span class="num">0</span>
+                            <span>现有商品数:</span>
+                            <span class="num">{{ totalStocks }}</span>
                         </div>
                         <div class="right">
                             <i class="el-icon-arrow-right"></i>
@@ -42,11 +44,16 @@
                 <div class="wrapper">
                     <div class="top">
                         <h4>团长待审核 (人)</h4>
-                        <h1 class="num">0</h1>
+                        <h1 class="num">
+                            {{ waitAuditGroupBuyingOrganizerNum }}
+                        </h1>
                     </div>
                     <div class="bottom">
                         <div class="left">
-                            <span>团长:</span> <span class="num">0</span>
+                            <span>团长:</span>
+                            <span class="num">{{
+                                totalGroupBuyingOrganizerNum
+                            }}</span>
                         </div>
                         <div class="right">
                             <i class="el-icon-arrow-right"></i>
@@ -56,11 +63,12 @@
                 <div class="wrapper">
                     <div class="top">
                         <h4>待处理售后 (单)</h4>
-                        <h1 class="num">0</h1>
+                        <h1 class="num">{{ waitAuditAfterSaleNum }}</h1>
                     </div>
                     <div class="bottom">
                         <div class="left">
-                            <span>今日成交额:</span> <span class="num">0</span>
+                            <span>所有售后单:</span>
+                            <span class="num">{{ totalAfterSaleNum }}</span>
                         </div>
                         <div class="right">
                             <i class="el-icon-arrow-right"></i>
@@ -174,11 +182,21 @@
     </div>
 </template>
 <script>
+import { doGetRequest } from "@/api/index";
+import constant from "@/constant/api/index";
 export default {
     name: "EmoHome",
     components: {},
     data() {
         return {
+            unPreparedOrderNum: 0,
+            todayOrderNum: 0,
+            inventoryWarningNum: 0,
+            totalStocks: 0,
+            totalGroupBuyingOrganizerNum: 0,
+            waitAuditGroupBuyingOrganizerNum: 0,
+            totalAfterSaleNum: 0,
+            waitAuditAfterSaleNum: 0,
             tableData1: [
                 {
                     ranking: 1,
@@ -225,9 +243,43 @@ export default {
         };
     },
     mounted() {
+        this.getOrderData();
+        this.getInventoryData();
+        this.getGroupOrganizerData();
+        this.getAfterSaleData();
         this.getEchartData();
     },
     methods: {
+        getOrderData() {
+            doGetRequest(constant.index.getOrderData).then((res) => {
+                let nums = res.data.data;
+                this.unPreparedOrderNum = nums.unPreparedOrderNum;
+                this.todayOrderNum = nums.todayOrderNum;
+            });
+        },
+        getInventoryData() {
+            doGetRequest(constant.index.getInventoryData).then((res) => {
+                let nums = res.data.data;
+                this.inventoryWarningNum = nums.inventoryWarningNum;
+                this.totalStocks = nums.totalStocks;
+            });
+        },
+        getGroupOrganizerData() {
+            doGetRequest(constant.index.getGroupOrganizerData).then((res) => {
+                let nums = res.data.data;
+                console.log("nums", nums);
+                this.totalGroupBuyingOrganizerNum = nums.totalGroupBuyingOrganizerNum;
+                this.waitAuditGroupBuyingOrganizerNum =
+                    nums.waitAuditGroupBuyingOrganizerNum;
+            });
+        },
+        getAfterSaleData() {
+            doGetRequest(constant.index.getAfterSaleData).then((res) => {
+                let nums = res.data.data;
+                this.totalAfterSaleNum = nums.totalAfterSaleNum;
+                this.waitAuditAfterSaleNum = nums.waitAuditAfterSaleNum;
+            });
+        },
         getEchartData() {
             const gpbs_chart = this.$refs.group_purchase_business_status;
             const ms_chart = this.$refs.member_statistics;
@@ -264,7 +316,7 @@ export default {
                         name: "营业额",
                         type: "bar",
                         data: [
-                            2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6,
+                            0.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6,
                             20.0, 6.4, 3.3,
                         ],
                         markPoint: {
@@ -300,36 +352,70 @@ export default {
                     },
                 ],
             };
+
             const ms_chart_option = {
+                title: {
+                    left: "center",
+                },
                 tooltip: {
                     trigger: "item",
-                    formatter: "{a} <br/>{b} : {c} ({d}%)",
                 },
                 legend: {
+                    orient: "horizontal",
                     top: "top",
                 },
                 series: [
                     {
                         name: "会员统计饼状图",
                         type: "pie",
-                        radius: [20, 140],
-                        center: ["50%", "50%"],
-                        roseType: "area",
-                        itemStyle: {
-                            borderRadius: 8,
-                        },
+                        radius: "50%",
                         data: [
-                            { value: 40, name: "普通会员" },
-                            { value: 38, name: "超级会员" },
-                            { value: 32, name: "商铺会员" },
-                            { value: 30, name: "团长" },
-                            { value: 28, name: "管理员" },
+                            { value: 2, name: "系统用户" },
+                            { value: 3, name: "商铺会员" },
+                            { value: 2, name: "普通会员" },
+                            { value: 3, name: "超级会员" },
+                            { value: 15, name: "团长" },
                         ],
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: "rgba(0, 0, 0, 0.5)",
+                            },
+                        },
                     },
                 ],
             };
+            /**
+             * 获得饼状图数据
+             */
+            doGetRequest(constant.index.getPieChartDataUrl).then((res) => {
+                let nums = res.data.data;
+                let newMs_chart_option = [];
+                newMs_chart_option[0] = {
+                    value: nums.userNum,
+                    name: "系统用户",
+                };
+                newMs_chart_option[1] = {
+                    value: nums.shopOwnerNum,
+                    name: "商铺会员",
+                };
+                newMs_chart_option[2] = {
+                    value: nums.memberVipNum,
+                    name: "普通会员",
+                };
+                newMs_chart_option[3] = {
+                    value: nums.memberSvipNum,
+                    name: "超级会员",
+                };
+                newMs_chart_option[4] = {
+                    value: nums.groupBuyingOrganizerNum,
+                    name: "团长",
+                };
+                ms_chart_option.series[0].data = newMs_chart_option;
+                this.$echarts.init(ms_chart).setOption(ms_chart_option);
+            });
             this.$echarts.init(gpbs_chart).setOption(gpbs_chart_option);
-            this.$echarts.init(ms_chart).setOption(ms_chart_option);
         },
     },
 };

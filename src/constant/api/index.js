@@ -4,6 +4,19 @@
  * @Date: 2022-08-06 20:40:43
  */
 
+
+/**
+ *   首页
+ */
+const index = {
+    getPieChartDataUrl: '/getPieChartData',
+    getOrderData: '/getOrderData',
+    getInventoryData: '/getInventoryData',
+    getGroupOrganizerData: '/getGroupOrganizerData',
+    getAfterSaleData: '/getAfterSaleData'
+
+}
+
 /**
  *   团长管理
  */
@@ -226,6 +239,7 @@ const sol = {
 }
 
 export default {
+    index,
     gbom,
     goods,
     gl,
