@@ -13,8 +13,9 @@ const index = {
     getOrderData: '/getOrderData',
     getInventoryData: '/getInventoryData',
     getGroupOrganizerData: '/getGroupOrganizerData',
-    getAfterSaleData: '/getAfterSaleData'
-
+    getAfterSaleData: '/getAfterSaleData',
+    getGroupBuyingOrganizerRank: '/getGroupBuyingOrganizerRank',
+    getBuyerRank: '/getBuyerRank'
 }
 
 /**

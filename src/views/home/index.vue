@@ -107,28 +107,23 @@
                         border
                         empty-text="暂无数据"
                     >
-                        <el-table-column
-                            prop="ranking"
-                            label="排名"
-                            width="40"
-                            align="center"
-                        >
+                        <el-table-column type="index" width="40" label="排名">
                         </el-table-column>
                         <el-table-column
-                            prop="store_name"
+                            prop="storeName"
                             label="店铺名称"
                             align="center"
                         >
                         </el-table-column>
                         <el-table-column
-                            prop="phone_number"
-                            label="联系方式"
+                            prop="recommendGroupBuyingOrganizer"
+                            label="团长姓名"
                             align="center"
                         >
                         </el-table-column>
                         <el-table-column
-                            prop="commission_balance"
-                            label="佣金"
+                            prop="commissionBalance"
+                            label="佣金(元)"
                             align="center"
                         >
                         </el-table-column>
@@ -144,34 +139,23 @@
                         border
                         empty-text="暂无数据"
                     >
-                        <el-table-column
-                            prop="ranking"
-                            label="排名"
-                            width="40"
-                            align="center"
-                        >
+                        <el-table-column type="index" width="40" label="排名">
                         </el-table-column>
                         <el-table-column
-                            prop="nickname"
+                            prop="buyer"
                             label="会员名称"
                             align="center"
                         >
                         </el-table-column>
                         <el-table-column
-                            prop="buy_orders"
-                            label="购买订单数"
+                            prop="orderAmount"
+                            label="交易额(元)"
                             align="center"
                         >
                         </el-table-column>
                         <el-table-column
-                            prop="total_spend_money"
-                            label="交易额"
-                            align="center"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                            prop="register_time"
-                            label="注册时间"
+                            prop="purchasingTime"
+                            label="购买时间"
                             align="center"
                         >
                         </el-table-column>
@@ -197,49 +181,8 @@ export default {
             waitAuditGroupBuyingOrganizerNum: 0,
             totalAfterSaleNum: 0,
             waitAuditAfterSaleNum: 0,
-            tableData1: [
-                {
-                    ranking: 1,
-                    store_name: "小渔村",
-                    phone_number: "13203034344",
-                    commission_balance: "2元",
-                },
-                {
-                    ranking: 2,
-                    store_name: "小渔村",
-                    phone_number: "13203034344",
-                    commission_balance: "2元",
-                },
-                {
-                    ranking: 3,
-                    store_name: "小渔村",
-                    phone_number: "13203034344",
-                    commission_balance: "2元",
-                },
-            ],
-            tableData2: [
-                {
-                    ranking: 1,
-                    nickname: "小红",
-                    buy_orders: "1320",
-                    total_spend_money: "200元",
-                    register_time: "2021-2-23",
-                },
-                {
-                    ranking: 2,
-                    nickname: "小渔村",
-                    buy_orders: "134",
-                    total_spend_money: "39元",
-                    register_time: "2002-2-23",
-                },
-                {
-                    ranking: 3,
-                    nickname: "小渔3村",
-                    buy_orders: "100",
-                    total_spend_money: "20元",
-                    register_time: "2022-2-23",
-                },
-            ],
+            tableData1: [],
+            tableData2: [],
         };
     },
     mounted() {
@@ -248,8 +191,25 @@ export default {
         this.getGroupOrganizerData();
         this.getAfterSaleData();
         this.getEchartData();
+        this.getGroupBuyingOrganizerRank();
+        this.getBuyerRank();
     },
     methods: {
+        getGroupBuyingOrganizerRank() {
+            doGetRequest(constant.index.getGroupBuyingOrganizerRank).then(
+                (res) => {
+                    let groupBuyingOrganizerRank =
+                        res.data.data.groupBuyingOrganizerRank;
+                    this.tableData1 = groupBuyingOrganizerRank;
+                }
+            );
+        },
+        getBuyerRank() {
+            doGetRequest(constant.index.getBuyerRank).then((res) => {
+                let buyerRank = res.data.data.buyerRank;
+                this.tableData2 = buyerRank;
+            });
+        },
         getOrderData() {
             doGetRequest(constant.index.getOrderData).then((res) => {
                 let nums = res.data.data;
@@ -267,8 +227,8 @@ export default {
         getGroupOrganizerData() {
             doGetRequest(constant.index.getGroupOrganizerData).then((res) => {
                 let nums = res.data.data;
-                console.log("nums", nums);
-                this.totalGroupBuyingOrganizerNum = nums.totalGroupBuyingOrganizerNum;
+                this.totalGroupBuyingOrganizerNum =
+                    nums.totalGroupBuyingOrganizerNum;
                 this.waitAuditGroupBuyingOrganizerNum =
                     nums.waitAuditGroupBuyingOrganizerNum;
             });
