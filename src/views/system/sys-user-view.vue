@@ -101,6 +101,52 @@
                 <!-- 操作 -->
                 <template v-slot:operation="slotData">
                     <el-button
+                        v-show="slotData.data.userType != 5"
+                        style="margin-left: 4px"
+                        slot="reference"
+                        size="mini"
+                        type="primary"
+                        @click="grantAdmin(slotData.data.id)"
+                        >设为管理员</el-button
+                    >
+                    <el-button
+                        v-show="slotData.data.userType != 4"
+                        style="margin-left: 4px"
+                        slot="reference"
+                        size="mini"
+                        type="warning"
+                        @click="grantGroupBuyingOrganizer(slotData.data.id)"
+                        >设为团长</el-button
+                    >
+                    <el-button
+                        v-show="slotData.data.userType != 3"
+                        style="margin-left: 4px"
+                        slot="reference"
+                        size="mini"
+                        type="danger"
+                        @click="grantShopOwners(slotData.data.id)"
+                        >设为商铺会员</el-button
+                    >
+                    <el-button
+                        v-show="slotData.data.userType != 1"
+                        style="margin-left: 4px"
+                        slot="reference"
+                        size="mini"
+                        type="info"
+                        @click="grantVip(slotData.data.id)"
+                        >设为普通会员</el-button
+                    >
+                    <el-button
+                        v-show="slotData.data.userType != 2"
+                        style="margin-left: 4px"
+                        slot="reference"
+                        size="mini"
+                        type="danger"
+                        @click="grantSVip(slotData.data.id)"
+                        >设为超级会员</el-button
+                    >
+
+                    <el-button
                         size="mini"
                         @click="handleEdit(slotData.data.id, slotData.data)"
                         >编辑</el-button
@@ -264,6 +310,7 @@ import {
     searchOrGetRequest,
     doPostRequest,
     doDeleteRequest,
+    doAuditRequest,
 } from "@/api/index";
 import EmoTable from "@/components/table/index";
 import { mapGetters, mapMutations, mapState } from "vuex";
@@ -349,9 +396,8 @@ export default {
                     { label: "注册时间", prop: "registerTime", width: 180 },
                     {
                         label: "操作",
-                        width: 200,
+                        width: 570,
                         type: "slot",
-                        align: "center",
                         slotName: "operation",
                         fixed: "right",
                     },
@@ -372,6 +418,88 @@ export default {
     },
     methods: {
         ...mapMutations(["clearIds"]),
+        grantVip(id) {
+            doAuditRequest(constant.user.grantVipUrl, id).then((res) => {
+                if (res.data.code == 200) {
+                    this.$message({
+                        message: "授权成功",
+                        type: "success",
+                    });
+                    this.refreshTable();
+                } else {
+                    this.$message({
+                        message: "操作有误,请检查网络或服务器",
+                        type: "error",
+                    });
+                }
+            });
+        },
+        grantSVip(id) {
+            doAuditRequest(constant.user.grantSVipUrl, id).then((res) => {
+                if (res.data.code == 200) {
+                    this.$message({
+                        message: "授权成功",
+                        type: "success",
+                    });
+                    this.refreshTable();
+                } else {
+                    this.$message({
+                        message: "操作有误,请检查网络或服务器",
+                        type: "error",
+                    });
+                }
+            });
+        },
+        grantAdmin(id) {
+            doAuditRequest(constant.user.grantAdminUrl, id).then((res) => {
+                if (res.data.code == 200) {
+                    this.$message({
+                        message: "授权成功",
+                        type: "success",
+                    });
+                    this.refreshTable();
+                } else {
+                    this.$message({
+                        message: "操作有误,请检查网络或服务器",
+                        type: "error",
+                    });
+                }
+            });
+        },
+        grantGroupBuyingOrganizer(id) {
+            doAuditRequest(constant.user.grantGroupBuyingOrganizerUrl, id).then(
+                (res) => {
+                    if (res.data.code == 200) {
+                        this.$message({
+                            message: "授权成功",
+                            type: "success",
+                        });
+                        this.refreshTable();
+                    } else {
+                        this.$message({
+                            message: "操作有误,请检查网络或服务器",
+                            type: "error",
+                        });
+                    }
+                }
+            );
+        },
+        grantShopOwners(id) {
+            doAuditRequest(constant.user.grantShopOwnersUrl, id).then((res) => {
+                if (res.data.code == 200) {
+                    this.$message({
+                        message: "授权成功",
+                        type: "success",
+                    });
+                    this.refreshTable();
+                } else {
+                    this.$message({
+                        message: "操作有误,请检查网络或服务器",
+                        type: "error",
+                    });
+                }
+            });
+        },
         doAddOrEdit() {
             //编辑模式
             if (this.eidtModel) {

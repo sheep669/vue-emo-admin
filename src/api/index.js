@@ -45,7 +45,7 @@ export function doDeleteRequest(url_param, id) {
 }
 
 /**
- *   通用审核功能请求(清算、黑名单(加/移)也可用)
+ *   通用审核功能请求(清算、黑名单(加/移)也可用),授权
  * @param {*} url_param 请求的url参数
  * @param {*} id        需要审核的id
  * @returns {*} res 后端返回的响应数据

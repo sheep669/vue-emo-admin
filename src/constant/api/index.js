@@ -207,6 +207,11 @@ const user = {
     deleteUrl: '/user/delete',
     searchOrGetPageList: '/users/page/get',
     deleteBatchUrl: '/users/deleteBatch',
+    grantVipUrl: '/user/grantVip',
+    grantSVipUrl: '/user/grantSVip',
+    grantAdminUrl: '/user/grantAdmin',
+    grantGroupBuyingOrganizerUrl: '/user/grantGroupBuyingOrganizer',
+    grantShopOwnersUrl: '/user/grantShopOwners',
 }
 /**
  *   操作用户类型
