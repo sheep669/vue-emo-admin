@@ -25,7 +25,7 @@
                 <div class="info">
                     <div class="avatar">
                         <el-avatar :size="50">
-                            <img src="../../assets/images/tx.png" />
+                            <img :src="avatarUrl" />
                         </el-avatar>
                         <el-dropdown>
                             <span class="el-dropdown-link"
@@ -116,6 +116,7 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import { doLogout } from "@/api/index";
+import axios from "@/utils/request";
 export default {
     name: "EmoHeader",
     data() {
@@ -127,6 +128,9 @@ export default {
         ...mapState("loginModule", ["userinfo"]),
         breadCrumbList() {
             return this.$route.matched;
+        },
+        avatarUrl() {
+            return axios.defaults.baseURL + "/" + this.userinfo.user.avatar;
         },
     },
     methods: {
