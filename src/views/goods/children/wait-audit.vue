@@ -13,6 +13,7 @@
             <!-- 操作 -->
             <template v-slot:operation="slotData">
                 <el-button
+                    v-if="userinfo.user.userType == '5'"
                     size="mini"
                     @click="handleConfirmAudit(slotData.data.id)"
                     >确认审核</el-button
@@ -68,6 +69,7 @@ export default {
         this.getTableData();
     },
     computed: {
+        ...mapState("loginModule", ["userinfo"]),
         ...mapGetters(["delIds"]),
         ...mapState("status", ["audit_status"]),
     },

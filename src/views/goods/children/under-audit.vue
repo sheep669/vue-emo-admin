@@ -12,10 +12,16 @@
         >
             <!-- 操作 -->
             <template v-slot:operation="slotData">
-                <el-button size="mini" @click="approveAudit(slotData.data.id)"
+                <el-button
+                    v-if="userinfo.user.userType == '5'"
+                    size="mini"
+                    @click="approveAudit(slotData.data.id)"
                     >通过</el-button
                 >
-                <el-button size="mini" @click="rejectAudit(slotData.data.id)"
+                <el-button
+                    v-if="userinfo.user.userType == '5'"
+                    size="mini"
+                    @click="rejectAudit(slotData.data.id)"
                     >拒绝</el-button
                 >
                 <el-popconfirm
@@ -69,6 +75,7 @@ export default {
         this.getTableData();
     },
     computed: {
+        ...mapState("loginModule", ["userinfo"]),
         ...mapGetters(["delIds"]),
         ...mapState("status", ["audit_status"]),
     },

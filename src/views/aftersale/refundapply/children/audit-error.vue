@@ -12,7 +12,10 @@
         >
             <!-- 操作 -->
             <template v-slot:operation="slotData">
-                <el-button size="mini" @click="reAudit(slotData.data.id)"
+                <el-button
+                    v-if="userinfo.user.userType == '5'"
+                    size="mini"
+                    @click="reAudit(slotData.data.id)"
                     >重新审核</el-button
                 >
                 <el-popconfirm
@@ -67,6 +70,7 @@ export default {
     },
     computed: {
         ...mapGetters(["delIds"]),
+        ...mapState("loginModule", ["userinfo"]),
         ...mapState("status", ["audit_status"]),
         ...mapState("type", ["order_after_sale_type", "refund_type"]),
     },
