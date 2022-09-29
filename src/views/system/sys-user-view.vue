@@ -221,7 +221,11 @@
                         placeholder="请输入密码"
                     ></el-input>
                 </el-form-item>
-                <el-form-item label="角色 :" :label-width="formLabelWidth">
+                <el-form-item
+                    label="角色 :"
+                    :label-width="formLabelWidth"
+                    v-if="eidtModel"
+                >
                     <el-input
                         clearable
                         v-model="dialogConfig.role"
@@ -241,7 +245,11 @@
                     >
                     </el-switch>
                 </el-form-item>
-                <el-form-item label="用户类型 :" :label-width="formLabelWidth">
+                <el-form-item
+                    label="用户类型 :"
+                    :label-width="formLabelWidth"
+                    v-if="eidtModel"
+                >
                     <el-select v-model="value" placeholder="请选择">
                         <el-option
                             v-for="item in user_type"
