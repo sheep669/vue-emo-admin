@@ -106,7 +106,9 @@
                     <template slot-scope="scope">
                         <el-image
                             style="width: 100px; height: 100px"
-                            :src="scope.row.imgurl"
+                            :src="
+                                axios.defaults.baseURL + '/' + scope.row.avatar
+                            "
                             fit="fit"
                         ></el-image>
                     </template>

@@ -355,17 +355,13 @@ export default {
                     {
                         label: "用户ID",
                         prop: "id",
-                        fixed: "left",
                         width: 80,
                     },
                     {
                         label: "用户名",
                         prop: "username",
                         width: 160,
-                        fixed: "left",
                     },
-                    { label: "密码", prop: "password", width: 200 },
-                    { label: "角色", prop: "role", width: 200 },
                     {
                         label: "状态(禁/启用)",
                         prop: "status",
@@ -374,6 +370,8 @@ export default {
                         align: "center",
                         slotName: "status",
                     },
+                    { label: "密码", prop: "password", width: 200 },
+                    { label: "角色", prop: "role", width: 200 },
                     {
                         label: "用户类型",
                         prop: "userType",
@@ -388,7 +386,12 @@ export default {
                             }
                         },
                     },
-                    { label: "头像", prop: "avatar", width: 150 },
+                    {
+                        label: "头像",
+                        prop: "avatar",
+                        width: 150,
+                        // type: "image",
+                    },
                     { label: "手机号码", prop: "phoneNumber", width: 120 },
                     { label: "账户余额", prop: "accountBalance", width: 120 },
                     { label: "居住地", prop: "location", width: 150 },
